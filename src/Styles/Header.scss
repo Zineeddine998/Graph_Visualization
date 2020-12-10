@@ -14,10 +14,20 @@
 .navbar {
 	background-color: var(--header-color);
 	padding: 1.5em;
-	display: flex;
-	justify-content: flex-end;
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	column-gap: 1em;
 }
 
+.source-node {
+	grid-column: 1;
+}
+.target-node {
+	grid-column: 2;
+}
+.toggle-container {
+	grid-column: 7;
+}
 .toggle-switch {
 	height: 0;
 	width: 0;
