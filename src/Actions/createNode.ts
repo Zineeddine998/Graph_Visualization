@@ -1,12 +1,12 @@
 import node from '../Types/Node';
 
-const createNode = (value: number, x: number, y: number): node => {
+const createNode = (value: number, x: number, y: number, clientX: number, clientY: number): node => {
 	const newNode: node = {
 		value: value,
 		x: x,
 		y: y,
-		windowX: window.innerWidth,
-		windowY: window.innerHeight
+		windowX: clientX,
+		windowY: clientY
 	};
 
 	return newNode;

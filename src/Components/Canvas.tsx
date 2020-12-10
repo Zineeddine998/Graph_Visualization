@@ -2,45 +2,48 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { convertToObject } from 'typescript';
 import useWindowSize from '../Hooks/WindowSize';
 import node from '../Types/Node';
+import edge from '../Types/Edge';
 import createNode from '../Actions/createNode';
 import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import adjacencyListProvider from '../Types/adjacencyListProvider';
+import { CanvasContext } from '../Context/CanvasContext';
+import canvasProvider from '../Types/canvasProvider';
+import drawNode from '../Actions/drawNode';
 
 const Canvas = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const [
-		canvas,
-		setCanvas
-	] = useState<HTMLCanvasElement | null>(null);
-	const [
-		context,
-		setContext
-	] = useState<CanvasRenderingContext2D | null>(null);
+
 	const [
 		width,
 		height
 	] = useWindowSize();
 
-	const { adjacencyList, addNode } = useContext<adjacencyListProvider>(AdjacencyListContext);
-	console.log(width, height);
+	const { nodeList, addNode, edgeList } = useContext<adjacencyListProvider>(AdjacencyListContext);
+
+	const { canvas, context, setCanvas, setContext } = useContext<canvasProvider>(CanvasContext);
+	console.log(edgeList);
 	const handleClick = (clientX: number, clientY: number): void => {
 		if (canvas) {
 			const rect = canvas.getBoundingClientRect();
 			const x = clientX - rect.left;
 			const y = clientY - rect.top;
-			console.log('x: ' + x + 'y: ' + y);
+			console.log(edgeList);
 			if (context) {
-				context.beginPath();
-				context.arc(x, y, 10, 0, 2 * Math.PI, false);
-				context.lineWidth = 3;
-				context.stroke();
-				context.font = '20px Hack';
-				context.textAlign = 'center';
-				context.textBaseline = 'middle';
-				context.fillText('1', x, y);
-				let newNode: node = createNode(0, x, y);
+				const nodeCount: number = nodeList.length;
+				// context.beginPath();
+				// context.arc(x, y, 10, 0, 2 * Math.PI, false);
+				// context.lineWidth = 3;
+				// context.stroke();
+				// context.font = '20px Hack';
+				// context.textAlign = 'center';
+				// context.textBaseline = 'middle';
+				// context.fillText(nodeCount.toString(), x, y);
+				// let newNode = createNode(nodeCount, x, y);
+				drawNode(nodeCount, context, x, y);
+				let newNode: node = createNode(nodeCount, x, y, rect.right, rect.bottom);
 				addNode(newNode);
-				console.log(adjacencyList);
+				console.log(nodeList);
+				console.log(edgeList);
 
 				context.fill();
 			}
@@ -60,7 +63,9 @@ const Canvas = () => {
 		},
 		[
 			width,
-			height
+			height,
+			setCanvas,
+			setContext
 		]
 	);
 

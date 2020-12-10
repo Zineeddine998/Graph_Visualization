@@ -3,6 +3,7 @@ import './Styles/App.scss';
 import Header from './Components/Header';
 import Canvas from './Components/Canvas';
 import { AdjacencyListContextProvider } from './Context/AdjacencyListContext';
+import { CanvasContextProvider } from './Context/CanvasContext';
 
 // const handleChange = (value: boolean): void => {
 // 	if (value) {
@@ -16,12 +17,14 @@ import { AdjacencyListContextProvider } from './Context/AdjacencyListContext';
 const App: React.FC = () => {
 	return (
 		<div className="App">
-			<Header />
-			<div className="container">
-				<AdjacencyListContextProvider>
-					<Canvas />
-				</AdjacencyListContextProvider>
-			</div>
+			<AdjacencyListContextProvider>
+				<CanvasContextProvider>
+					<Header />
+					<div className="container">
+						<Canvas />
+					</div>
+				</CanvasContextProvider>
+			</AdjacencyListContextProvider>
 		</div>
 	);
 };
