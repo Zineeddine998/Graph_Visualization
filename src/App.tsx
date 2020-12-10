@@ -2,6 +2,7 @@ import React from 'react';
 import './Styles/App.scss';
 import Header from './Components/Header';
 import Canvas from './Components/Canvas';
+import { AdjacencyListContextProvider } from './Context/AdjacencyListContext';
 
 // const handleChange = (value: boolean): void => {
 // 	if (value) {
@@ -17,7 +18,9 @@ const App: React.FC = () => {
 		<div className="App">
 			<Header />
 			<div className="container">
-				<Canvas />
+				<AdjacencyListContextProvider>
+					<Canvas />
+				</AdjacencyListContextProvider>
 			</div>
 		</div>
 	);
