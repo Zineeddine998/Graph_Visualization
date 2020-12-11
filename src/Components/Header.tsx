@@ -57,16 +57,21 @@ const Header = () => {
 	const handleNewEdge = (event: React.FormEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		if (context && canvas) {
-			const sourceNb = +source;
-			const targetNb = +target;
-			drawEdge(nodeList, sourceNb, targetNb, context);
+			let sourceNb: number = +source;
+			let targetNb: number = +target;
+			for (let item in nodeList) {
+				if (nodeList[item].value === sourceNb) {
+					sourceNb = +item;
+				}
+				else if (nodeList[item].value === targetNb) {
+					targetNb = +item;
+				}
+			}
 			const newEdge: edge = {
 				source: nodeList[sourceNb],
 				target: nodeList[targetNb]
 			};
 			addEdge(newEdge);
-			drawNode(sourceNb, context, nodeList[sourceNb].canvasX, nodeList[sourceNb].canvasY);
-			drawNode(targetNb, context, nodeList[targetNb].canvasX, nodeList[targetNb].canvasY);
 		}
 	};
 

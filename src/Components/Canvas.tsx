@@ -8,6 +8,7 @@ import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import adjacencyListProvider from '../Types/adjacencyListProvider';
 import { CanvasContext } from '../Context/CanvasContext';
 import canvasProvider from '../Types/canvasProvider';
+import redrawCanvas from '../Actions/redrawCanvas';
 import drawNode from '../Actions/drawNode';
 import contextMenu from '../Types/contextMenu';
 import ContextMenu from './ContextMenu';
@@ -93,10 +94,13 @@ const Canvas = () => {
 				canvas.height = window.innerHeight;
 			}
 			//setCanvas(canvasRef.current);
+			redrawCanvas(nodeList, edgeList, canvas, context);
 		},
 		[
 			width,
 			height,
+			nodeList,
+			edgeList,
 			setCanvas,
 			setContext
 		]
