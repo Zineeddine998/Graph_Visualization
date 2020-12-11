@@ -9,6 +9,7 @@ import createNode from '../Actions/createNode';
 import adjacencyListProvider from '../Types/adjacencyListProvider';
 import contextMenuState from '../Actions/contextMenuState';
 import getNextIndex from '../Actions/getNextIndex';
+import redrawCanvas from '../Actions/redrawCanvas';
 
 type AppProps = {
 	contextmenu: contextMenu;
@@ -18,7 +19,9 @@ type AppProps = {
 const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	const { isOpen, x, y } = contextmenu;
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
-	const { nodeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(AdjacencyListContext);
+	const { nodeList, edgeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(
+		AdjacencyListContext
+	);
 	let innerX = x;
 	let innerY = y;
 	if (x + 200 > window.innerWidth) {
@@ -79,6 +82,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 
 	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
 		deleteNode(x, y);
+		redrawCanvas(nodeList, edgeList, canvas, context);
 		setContextMenuState(false);
 	};
 
