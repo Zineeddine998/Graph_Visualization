@@ -7,7 +7,6 @@ import canvasProvider from '../Types/canvasProvider';
 import { CanvasContext } from '../Context/CanvasContext';
 import drawEdge from '../Actions/drawEdge';
 import drawNode from '../Actions/drawNode';
-import clearNodes from '../Actions/clearNodes';
 
 const Header = () => {
 	// const transform = () => {
@@ -21,7 +20,7 @@ const Header = () => {
 		target,
 		setTarget
 	] = useState<string>('');
-	const { nodeList, edgeList, addNode, addEdge } = useContext(AdjacencyListContext);
+	const { nodeList, edgeList, addNode, addEdge, clearNodes } = useContext(AdjacencyListContext);
 
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
 	console.log(nodeList, edgeList, addNode, addEdge);
