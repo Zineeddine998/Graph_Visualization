@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import '../Styles/Header.scss';
 import node from '../Types/Node';
+import edge from '../Types/Edge';
 import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import canvasProvider from '../Types/canvasProvider';
 import { CanvasContext } from '../Context/CanvasContext';
 import drawEdge from '../Actions/drawEdge';
+import drawNode from '../Actions/drawNode';
 
 const Header = () => {
 	// const transform = () => {
@@ -50,6 +52,13 @@ const Header = () => {
 			const sourceNb = +source;
 			const targetNb = +target;
 			drawEdge(nodeList, sourceNb, targetNb, context);
+			const newEdge: edge = {
+				source: nodeList[sourceNb],
+				target: nodeList[targetNb]
+			};
+			addEdge(newEdge);
+			drawNode(sourceNb, context, nodeList[sourceNb].x, nodeList[sourceNb].y);
+			drawNode(targetNb, context, nodeList[targetNb].x, nodeList[targetNb].y);
 		}
 	};
 
@@ -61,7 +70,7 @@ const Header = () => {
 	};
 
 	return (
-		<header className="header">
+		<header className="navbar">
 			<h4 className="header-text">Graph Visualisation</h4>
 			<select value={source} onChange={handleSourceChange} className="source-node">
 				{nodeList.map((node) => {
