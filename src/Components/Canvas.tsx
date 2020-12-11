@@ -98,7 +98,10 @@ const Canvas = () => {
 	return (
 		<div className="canvas-container">
 			{
-				contextMenu.isOpen ? <ContextMenu contextmenu={contextMenu} /> :
+				contextMenu.isOpen ? <ContextMenu
+					contextmenu={contextMenu}
+					setContextMenuState={setContextMenuState}
+				/> :
 				<React.Fragment />}
 			<canvas ref={canvasRef} onClick={handleClick} className="canvas" onContextMenu={handleRightClick} />
 		</div>

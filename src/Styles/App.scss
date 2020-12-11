@@ -37,11 +37,13 @@
 //   }
 // }
 [data-theme="light"] {
+	--font-color: #0077ff;
 	--header-color: #333333;
 	--color-headings: #0077ff;
 }
 
 [data-theme="dark"] {
+	--font-color: #596691;
 	--header-color: #eeeeee;
 	--color-headings: #3694ff;
 }
@@ -57,8 +59,24 @@
 }
 
 .context-menu {
-	color: var(--header-color);
+	color: var(--font-color);
+	background-color: var(--background-color);
 	width: 200px;
-	height: 200px;
-	border: var(--header-color) 2px, solid;
+	height: 170px;
+	border: var(--background-color) 2px solid;
+}
+
+.context-menu-option {
+	border: var(--font-color) 1px solid;
+	padding: 10px;
+	margin-bottom: 2px;
+	cursor: pointer;
+
+	&:hover {
+		background-color: var(--hover-color);
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
 }

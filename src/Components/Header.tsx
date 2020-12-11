@@ -7,6 +7,7 @@ import canvasProvider from '../Types/canvasProvider';
 import { CanvasContext } from '../Context/CanvasContext';
 import drawEdge from '../Actions/drawEdge';
 import drawNode from '../Actions/drawNode';
+import clearNodes from '../Actions/clearNodes';
 
 const Header = () => {
 	// const transform = () => {
@@ -27,6 +28,14 @@ const Header = () => {
 
 	let newNode: node = nodeList[0];
 	console.log(newNode);
+
+	const handleClearCanvas = (event: React.FormEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		if (context && canvas) {
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			clearNodes();
+		}
+	};
 	const handleThemeChange = (value: boolean): void => {
 		if (value) {
 			transform();
@@ -89,6 +98,9 @@ const Header = () => {
 			</select>
 			<button className="add-edge" onClick={handleNewEdge}>
 				Add Edge
+			</button>
+			<button className="clear-canvas" onClick={handleClearCanvas}>
+				Clear Nodes
 			</button>
 			<div className="toggle-container">
 				<input

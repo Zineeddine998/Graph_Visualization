@@ -7,7 +7,8 @@ const initialState: adjacencyListProvider = {
 	edgeList: [],
 	nodeList: [],
 	addEdge: (edge: edge) => {},
-	addNode: (node: node) => {}
+	addNode: (node: node) => {},
+	clearNodes: () => {}
 };
 
 export const AdjacencyListContext = createContext<adjacencyListProvider>(initialState);
@@ -37,9 +38,13 @@ export const AdjacencyListContextProvider = (props: IProps) => {
 			edge
 		]);
 	};
+	const clearNodes = () => {
+		setNodeList([]);
+		setEdgeList([]);
+	};
 
 	return (
-		<AdjacencyListContext.Provider value={{ nodeList, addNode, edgeList, addEdge }}>
+		<AdjacencyListContext.Provider value={{ nodeList, addNode, edgeList, addEdge, clearNodes }}>
 			{props.children}
 		</AdjacencyListContext.Provider>
 	);
