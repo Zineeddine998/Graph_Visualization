@@ -1,12 +1,22 @@
 import node from '../Types/Node';
 
-const createNode = (value: number, x: number, y: number, clientX: number, clientY: number): node => {
+const createNode = (
+	value: number,
+	canvasX: number,
+	canvasY: number,
+	clientX: number,
+	clientY: number,
+	windowX: number,
+	windowY: number
+): node => {
 	const newNode: node = {
 		value: value,
-		x: x,
-		y: y,
-		windowX: clientX,
-		windowY: clientY
+		canvasX: canvasX,
+		canvasY: canvasY,
+		clientX: clientX,
+		clientY: clientY,
+		windowX: windowX,
+		windowY: windowY
 	};
 
 	return newNode;

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { CanvasContext } from '../Context/CanvasContext';
 import contextMenu from '../Types/contextMenu';
 import canvasProvider from '../Types/canvasProvider';
@@ -7,13 +7,18 @@ import node from '../Types/Node';
 import drawNode from '../Actions/drawNode';
 import createNode from '../Actions/createNode';
 import adjacencyListProvider from '../Types/adjacencyListProvider';
+import contextMenuState from '../Actions/contextMenuState';
+import getNextIndex from '../Actions/getNextIndex';
 
-type AppProps = { contextmenu: contextMenu };
+type AppProps = {
+	contextmenu: contextMenu;
+	setContextMenuState(state: boolean, x?: number, y?: number): void;
+};
 
-const ContextMenu = ({ contextmenu, setContextMenuState }: any) => {
+const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	const { isOpen, x, y } = contextmenu;
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
-	const { nodeList, addNode } = useContext<adjacencyListProvider>(AdjacencyListContext);
+	const { nodeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(AdjacencyListContext);
 	let innerX = x;
 	let innerY = y;
 	if (x + 200 > window.innerWidth) {
@@ -22,6 +27,14 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: any) => {
 	if (y + 150 > window.innerHeight) {
 		innerY = y - 150;
 	}
+
+	useEffect(() => {}, [
+		x,
+		y,
+		nodeList
+	]);
+
+	const result = contextMenuState(nodeList, x, y);
 
 	const handleRightClick = (event: React.MouseEvent): void => {
 		event.preventDefault();
@@ -34,9 +47,9 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: any) => {
 			const xPos = x - rect.left;
 			const yPos = y - rect.top;
 			if (context) {
-				const nodeCount: number = nodeList.length;
+				const nodeCount: number = getNextIndex(nodeList);
 				drawNode(nodeCount, context, xPos, yPos);
-				const newNode: node = createNode(nodeCount, xPos, yPos, rect.right, rect.bottom);
+				const newNode: node = createNode(nodeCount, xPos, yPos, x, y, rect.right, rect.bottom);
 				addNode(newNode);
 			}
 			setContextMenuState(false);
@@ -45,7 +58,10 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: any) => {
 
 	const handleClearCanvas = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
-		console.log('clear canvas');
+		if (context && canvas) {
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			clearNodes();
+		}
 		setContextMenuState(false);
 	};
 
@@ -61,25 +77,35 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: any) => {
 		setContextMenuState(false);
 	};
 
+	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
+		deleteNode(x, y);
+		setContextMenuState(false);
+	};
+
 	return (
 		<div
 			className="context-menu"
 			style={{ left: innerX, top: innerY, position: 'absolute' }}
 			onContextMenu={handleRightClick}
 		>
-			<h3>Context Menu</h3>
-			<div className="context-menu-option" onClick={handleAddNode}>
-				Add Node
-			</div>
-			<div className="context-menu-option" onClick={handleClearCanvas}>
-				Clear Canvas
-			</div>
-			<div className="context-menu-option" onClick={handleAddDirectedEdge}>
-				Add Directed Edge
-			</div>
-			<div className="context-menu-option" onClick={handleAddUndirectedEdge}>
-				Add Undirected Edge
-			</div>
+			{
+				result ? <div>
+					<div className="context-menu-option" onClick={handleAddNode}>
+						Add Node
+					</div>
+					<div className="context-menu-option" onClick={handleClearCanvas}>
+						Clear Canvas
+					</div>
+					<div className="context-menu-option" onClick={handleAddDirectedEdge}>
+						Add Directed Edge
+					</div>
+					<div className="context-menu-option" onClick={handleAddUndirectedEdge}>
+						Add Undirected Edge
+					</div>
+				</div> :
+				<div className="context-menu-option" onClick={handleDeleteNode}>
+					Delete Node
+				</div>}
 		</div>
 	);
 };

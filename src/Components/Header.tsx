@@ -66,8 +66,8 @@ const Header = () => {
 				target: nodeList[targetNb]
 			};
 			addEdge(newEdge);
-			drawNode(sourceNb, context, nodeList[sourceNb].x, nodeList[sourceNb].y);
-			drawNode(targetNb, context, nodeList[targetNb].x, nodeList[targetNb].y);
+			drawNode(sourceNb, context, nodeList[sourceNb].canvasX, nodeList[sourceNb].canvasY);
+			drawNode(targetNb, context, nodeList[targetNb].canvasX, nodeList[targetNb].canvasY);
 		}
 	};
 

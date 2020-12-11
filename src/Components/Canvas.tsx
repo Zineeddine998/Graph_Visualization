@@ -11,6 +11,7 @@ import canvasProvider from '../Types/canvasProvider';
 import drawNode from '../Actions/drawNode';
 import contextMenu from '../Types/contextMenu';
 import ContextMenu from './ContextMenu';
+import getNextIndex from '../Actions/getNextIndex';
 
 const Canvas = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -28,7 +29,6 @@ const Canvas = () => {
 	const { nodeList, addNode, edgeList } = useContext<adjacencyListProvider>(AdjacencyListContext);
 
 	const { canvas, context, setCanvas, setContext } = useContext<canvasProvider>(CanvasContext);
-	console.log(edgeList);
 
 	const setContextMenuState = (state: boolean, x: number = 0, y: number = 0): void => {
 		const newContextMenuState: contextMenu = {
@@ -44,9 +44,8 @@ const Canvas = () => {
 				const rect = canvas.getBoundingClientRect();
 				const x = event.clientX - rect.left;
 				const y = event.clientY - rect.top;
-				console.log(edgeList);
 				if (context) {
-					const nodeCount: number = nodeList.length;
+					const nodeCount: number = getNextIndex(nodeList);
 					// context.beginPath();
 					// context.arc(x, y, 10, 0, 2 * Math.PI, false);
 					// context.lineWidth = 3;
@@ -56,11 +55,19 @@ const Canvas = () => {
 					// context.textBaseline = 'middle';
 					// context.fillText(nodeCount.toString(), x, y);
 					// let newNode = createNode(nodeCount, x, y);
+					console.log(nodeCount.toString());
 					drawNode(nodeCount, context, x, y);
-					const newNode: node = createNode(nodeCount, x, y, rect.right, rect.bottom);
+					const newNode: node = createNode(
+						nodeCount,
+						x,
+						y,
+						event.clientX,
+						event.clientY,
+						rect.right,
+						rect.bottom
+					);
 					addNode(newNode);
 					console.log(nodeList);
-					console.log(edgeList);
 
 					//context.fill();
 				}
