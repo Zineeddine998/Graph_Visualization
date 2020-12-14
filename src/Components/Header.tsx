@@ -59,19 +59,24 @@ const Header = () => {
 		if (context && canvas) {
 			let sourceNb: number = +source;
 			let targetNb: number = +target;
-			for (let item in nodeList) {
-				if (nodeList[item].value === sourceNb) {
-					sourceNb = +item;
+			let sourceNode: node | null = null;
+			let targetNode: node | null = null;
+			for (let item of nodeList) {
+				if (item.value === sourceNb) {
+					sourceNode = item;
 				}
-				else if (nodeList[item].value === targetNb) {
-					targetNb = +item;
+				else if (item.value === targetNb) {
+					targetNode = item;
 				}
 			}
-			const newEdge: edge = {
-				source: nodeList[sourceNb],
-				target: nodeList[targetNb]
-			};
-			addEdge(newEdge);
+
+			if (sourceNode && targetNode) {
+				const newEdge: edge = {
+					source: sourceNode,
+					target: targetNode
+				};
+				addEdge(newEdge);
+			}
 		}
 	};
 

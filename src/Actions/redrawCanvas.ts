@@ -12,7 +12,7 @@ const redrawCanvas = (
 	if (canvas && context) {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		for (let item of edgeList) {
-			drawEdge(nodeList, item.source.value, item.target.value, context);
+			drawEdge(item.source, item.target, context);
 		}
 		for (let item of nodeList) {
 			drawNode(item.value, context, item.canvasX, item.canvasY);

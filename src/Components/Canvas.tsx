@@ -18,6 +18,11 @@ const Canvas = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const intialContextMenu: contextMenu = { isOpen: false, x: 0, y: 0 };
 	const [
+		newNode,
+		setNewNode
+	] = useState<node | null>(null);
+
+	const [
 		contextMenu,
 		setContextMenu
 	] = useState<contextMenu>(intialContextMenu);
@@ -27,7 +32,7 @@ const Canvas = () => {
 		height
 	] = useWindowSize();
 
-	const { nodeList, addNode, edgeList } = useContext<adjacencyListProvider>(AdjacencyListContext);
+	const { nodeList, addNode, edgeList, moveNode } = useContext<adjacencyListProvider>(AdjacencyListContext);
 
 	const { canvas, context, setCanvas, setContext } = useContext<canvasProvider>(CanvasContext);
 
@@ -39,49 +44,71 @@ const Canvas = () => {
 		};
 		setContextMenu(newContextMenuState);
 	};
-	const handleClick = (event: React.MouseEvent): void => {
-		if (contextMenu.isOpen === false) {
-			if (canvas) {
-				const rect = canvas.getBoundingClientRect();
-				const x = event.clientX - rect.left;
-				const y = event.clientY - rect.top;
-				if (context) {
-					const nodeCount: number = getNextIndex(nodeList);
-					// context.beginPath();
-					// context.arc(x, y, 10, 0, 2 * Math.PI, false);
-					// context.lineWidth = 3;
-					// context.stroke();
-					// context.font = '20px Hack';
-					// context.textAlign = 'center';
-					// context.textBaseline = 'middle';
-					// context.fillText(nodeCount.toString(), x, y);
-					// let newNode = createNode(nodeCount, x, y);
-					console.log(nodeCount.toString());
-					drawNode(nodeCount, context, x, y);
-					const newNode: node = createNode(
-						nodeCount,
-						x,
-						y,
-						event.clientX,
-						event.clientY,
-						rect.right,
-						rect.bottom
-					);
-					addNode(newNode);
-					console.log(nodeList);
-
-					//context.fill();
-				}
-			}
-		}
-		else {
-			setContextMenuState(false);
-		}
-	};
 
 	const handleRightClick = (event: React.MouseEvent): void => {
 		event.preventDefault();
 		setContextMenuState(true, event.pageX, event.pageY);
+	};
+	const handleMouseDown = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		if (canvas && event.buttons === 1) {
+			const x = event.clientX;
+			const y = event.clientY;
+			const rect = canvas.getBoundingClientRect();
+			let index: number = -1;
+			for (let item in nodeList) {
+				if (Math.abs(x - nodeList[item].clientX) < 20 && Math.abs(y - nodeList[item].clientY) < 20) {
+					index = +item;
+				}
+			}
+
+			if (index > -1) {
+				console.log(index);
+				let node = nodeList[index];
+				node.clientX = x;
+				node.canvasY = y;
+				node.canvasX = x - rect.left;
+				node.canvasY = y - rect.top;
+				setNewNode(node);
+			}
+		}
+	};
+
+	const handleMouseMove = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		if (newNode && canvas && event.buttons === 1) {
+			const x = event.clientX;
+			const y = event.clientY;
+			let node = newNode;
+			let rect = canvas.getBoundingClientRect();
+			node.clientX = x;
+			node.clientY = y;
+			node.canvasX = x - rect.left;
+			node.canvasY = y - rect.top;
+			setNewNode(node);
+
+			moveNode(newNode);
+			redrawCanvas(nodeList, edgeList, canvas, context);
+		}
+	};
+
+	const handleMouseUp = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		if (newNode) {
+			setNewNode(null);
+		}
+		else {
+			if (contextMenu.isOpen === false && canvas) {
+				const rect = canvas.getBoundingClientRect();
+				const x = event.clientX - rect.left;
+				const y = event.clientY - rect.top;
+				addNode(newNode);
+				console.log(nodeList);
+			}
+			else {
+				setContextMenuState(false);
+			}
+		}
 	};
 
 	useEffect(
@@ -93,7 +120,7 @@ const Canvas = () => {
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
 			}
-			//setCanvas(canvasRef.current);
+
 			redrawCanvas(nodeList, edgeList, canvas, context);
 		},
 		[
@@ -106,6 +133,10 @@ const Canvas = () => {
 		]
 	);
 
+	const handleMouseOut = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		setNewNode(null);
+	};
 	return (
 		<div className="canvas-container">
 			{
@@ -114,7 +145,16 @@ const Canvas = () => {
 					setContextMenuState={setContextMenuState}
 				/> :
 				<React.Fragment />}
-			<canvas ref={canvasRef} onClick={handleClick} className="canvas" onContextMenu={handleRightClick} />
+			<canvas
+				ref={canvasRef}
+				onClick={handleRightClick}
+				className="canvas"
+				onContextMenu={handleRightClick}
+				onMouseDown={handleMouseDown}
+				onMouseMove={handleMouseMove}
+				onMouseUp={handleMouseUp}
+				onMouseOut={handleMouseOut}
+			/>
 		</div>
 	);
 };
