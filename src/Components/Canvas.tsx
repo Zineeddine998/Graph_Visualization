@@ -102,7 +102,18 @@ const Canvas = () => {
 				const rect = canvas.getBoundingClientRect();
 				const x = event.clientX - rect.left;
 				const y = event.clientY - rect.top;
-				addNode(newNode);
+				const nodeCount: number = getNextIndex(nodeList);
+				const newnode: node = createNode(
+					nodeCount,
+					x,
+					y,
+					event.clientX,
+					event.clientY,
+					rect.right,
+					rect.bottom
+				);
+
+				addNode(newnode);
 				console.log(nodeList);
 			}
 			else {
