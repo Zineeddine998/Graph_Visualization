@@ -27,10 +27,10 @@ const redrawCanvas = (
 			}
 		}
 		for (let item of edgeList) {
-			drawEdge(item.source, item.target, context);
+			drawEdge(item.source, item.target, item.directed, context);
 		}
 		for (let item of nodeList) {
-			drawNode(item.value, context, item.canvasX, item.canvasY);
+			drawNode(item.value, context, item.canvasX, item.canvasY, '#ffffff');
 		}
 	}
 };

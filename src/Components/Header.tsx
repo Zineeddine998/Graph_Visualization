@@ -73,7 +73,8 @@ const Header = () => {
 			if (sourceNode && targetNode) {
 				const newEdge: edge = {
 					source: sourceNode,
-					target: targetNode
+					target: targetNode,
+					directed: false
 				};
 				addEdge(newEdge);
 			}
@@ -99,7 +100,8 @@ const Header = () => {
 			if (sourceNode && targetNode) {
 				const newEdge: edge = {
 					source: sourceNode,
-					target: targetNode
+					target: targetNode,
+					directed: false
 				};
 				addEdge(newEdge);
 			}
