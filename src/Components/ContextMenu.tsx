@@ -19,15 +19,16 @@ type AppProps = {
 const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	const { isOpen, x, y } = contextmenu;
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
-	const { nodeList, edgeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(
+	const { nodeList, edgeList, addNode, clearNodes, deleteNode, moveNode } = useContext<adjacencyListProvider>(
 		AdjacencyListContext
 	);
+
 	let innerX = x;
 	let innerY = y;
 	if (x + 200 > window.innerWidth) {
 		innerX = x - 200;
 	}
-	if (y + 150 > window.innerHeight) {
+	if (y + 170 > window.innerHeight) {
 		innerY = y - 150;
 	}
 
@@ -81,8 +82,9 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	};
 
 	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
+		event.preventDefault();
 		deleteNode(x, y);
-		redrawCanvas(nodeList, edgeList, canvas, context);
+		redrawCanvas(nodeList, edgeList, canvas, context, moveNode);
 		setContextMenuState(false);
 	};
 
