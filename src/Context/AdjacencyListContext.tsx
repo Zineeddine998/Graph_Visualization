@@ -2,10 +2,12 @@ import React, { createContext, useState, ReactNode } from 'react';
 import node from '../Types/Node';
 import edge from '../Types/Edge';
 import adjacencyListProvider from '../Types/adjacencyListProvider';
+import adjacencyListObject from '../Types/adjacencyListObject';
 
 const initialState: adjacencyListProvider = {
 	edgeList: [],
 	nodeList: [],
+	adjacencyList: [],
 	addEdge: (edge: edge) => {},
 	addNode: (node: node) => {},
 	moveNode: (index: node) => {},
@@ -28,21 +30,36 @@ export const AdjacencyListContextProvider = (props: IProps) => {
 		edgeList,
 		setEdgeList
 	] = useState<edge[]>([]);
+	const [
+		adjacencyList,
+		setAdjacencyList
+	] = useState<adjacencyListObject[]>([]);
 	const addNode = (node: node) => {
+		let tempAdjacencyList = adjacencyList;
+		tempAdjacencyList.push({ value: node.value, target: [] });
 		setNodeList([
 			...nodeList,
 			node
 		]);
+		setAdjacencyList(adjacencyList);
 	};
 	const addEdge = (edge: edge) => {
+		let tempAdjacencyList = adjacencyList;
+		for (let item of tempAdjacencyList) {
+			if (item.value === edge.source.value) {
+				item.target.push(edge.target.value);
+			}
+		}
 		setEdgeList([
 			...edgeList,
 			edge
 		]);
+		setAdjacencyList(tempAdjacencyList);
 	};
 	const clearNodes = () => {
 		setNodeList([]);
 		setEdgeList([]);
+		setAdjacencyList([]);
 	};
 
 	const moveNode = (node: node) => {
@@ -71,7 +88,17 @@ export const AdjacencyListContextProvider = (props: IProps) => {
 		const secondList = nodeList.filter((item) => {
 			return item.value !== index;
 		});
-
+		let tempAdjacencyList = adjacencyList;
+		tempAdjacencyList.splice(index, 1);
+		for (let item of tempAdjacencyList) {
+			let count = item.target.length;
+			while (count--) {
+				if (item.target[count] === index) {
+					item.target.splice(count, 1);
+				}
+			}
+		}
+		setAdjacencyList(tempAdjacencyList);
 		console.log('spliced');
 
 		setNodeList(secondList);
@@ -80,7 +107,7 @@ export const AdjacencyListContextProvider = (props: IProps) => {
 
 	return (
 		<AdjacencyListContext.Provider
-			value={{ nodeList, addNode, edgeList, addEdge, clearNodes, deleteNode, moveNode }}
+			value={{ nodeList, addNode, edgeList, addEdge, clearNodes, deleteNode, moveNode, adjacencyList }}
 		>
 			{props.children}
 		</AdjacencyListContext.Provider>
