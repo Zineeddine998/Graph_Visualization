@@ -4,6 +4,7 @@ import Header from './Components/Header';
 import Canvas from './Components/Canvas';
 import { AdjacencyListContextProvider } from './Context/AdjacencyListContext';
 import { CanvasContextProvider } from './Context/CanvasContext';
+import VisualizeMenu from './Components/VisualizeMenu';
 
 // const handleChange = (value: boolean): void => {
 // 	if (value) {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
 					<Header />
 					<div className="container">
 						<Canvas />
+						<VisualizeMenu />
 					</div>
 				</CanvasContextProvider>
 			</AdjacencyListContextProvider>

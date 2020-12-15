@@ -2,8 +2,8 @@ const drawNode = (nodeCount: number, context: CanvasRenderingContext2D, x: numbe
 	context.beginPath();
 	context.arc(x, y, 25, 0, 2 * Math.PI, false);
 	context.stroke();
-	context.lineWidth = 3;
-	context.fillStyle = 'white';
+	context.lineWidth = 6;
+	context.fillStyle = 'black';
 	context.fill();
 	context.font = '25px Hack';
 	context.fillStyle = color;

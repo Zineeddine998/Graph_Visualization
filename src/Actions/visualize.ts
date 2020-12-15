@@ -1,9 +1,9 @@
 import node from '../Types/Node';
 import edge from '../Types/Edge';
-import drawNode from './drawNode';
-import drawEdge from './drawEdge';
+import drawEdge from './DrawEdge';
+import drawNode from './DrawNode';
 
-const redrawCanvas = (
+const visualize = (
 	nodeList: node[],
 	edgeList: edge[],
 	canvas: HTMLCanvasElement | null,
@@ -15,8 +15,8 @@ const redrawCanvas = (
 		for (let item of nodeList) {
 			if (rect.right !== item.windowX || rect.bottom !== item.windowY) {
 				console.log(item.value);
-				console.log(window.innerHeight);
 				console.log(item.windowY);
+				console.log(window.innerHeight);
 				item.clientX = item.clientX * (rect.right / item.windowX);
 				item.clientY = item.clientY * (rect.bottom / item.windowY);
 				item.canvasX = item.clientX - rect.left;
@@ -25,13 +25,14 @@ const redrawCanvas = (
 				item.windowY = rect.bottom;
 			}
 		}
+
 		for (let item of edgeList) {
 			drawEdge(item.source, item.target, item.directed, context);
 		}
 		for (let item of nodeList) {
-			drawNode(item.value, context, item.canvasX, item.canvasY, '#fff233');
+			drawNode(item.value, context, item.canvasX, item.canvasY, '#410000');
 		}
 	}
 };
 
-export default redrawCanvas;
+export default visualize;
