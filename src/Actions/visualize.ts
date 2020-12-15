@@ -1,7 +1,22 @@
 import node from '../Types/Node';
 import edge from '../Types/Edge';
-import drawEdge from './DrawEdge';
-import drawNode from './DrawNode';
+import drawEdge from './drawEdge';
+import drawNode from './drawNode';
+
+const slowDrawNode = (
+	wait: number,
+	value: number,
+	context: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	color: string
+) => {
+	console.log(value);
+	drawNode(value, context, x, y, '#536364');
+	setTimeout(() => {
+		drawNode(value, context, x, y, '#98869');
+	}, 1000 * wait);
+};
 
 const visualize = (
 	nodeList: node[],
@@ -25,12 +40,14 @@ const visualize = (
 				item.windowY = rect.bottom;
 			}
 		}
-
+		let i = 0;
 		for (let item of edgeList) {
 			drawEdge(item.source, item.target, item.directed, context);
 		}
 		for (let item of nodeList) {
-			drawNode(item.value, context, item.canvasX, item.canvasY, '#410000');
+			//drawNode(item.value, context, item.canvasX, item.canvasY, '#410000');
+			i++;
+			slowDrawNode(i, item.value, context, item.canvasX, item.canvasY, '#416464');
 		}
 	}
 };
