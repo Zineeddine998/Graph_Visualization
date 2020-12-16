@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { CanvasContext } from '../Context/CanvasContext';
 import contextMenu from '../Types/contextMenu';
 import canvasProvider from '../Types/canvasProvider';
@@ -16,27 +16,40 @@ type AppProps = {
 	setContextMenuState(state: boolean, x?: number, y?: number): void;
 };
 
+type Position = {
+	x: number;
+	y: number;
+};
+
 const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
-	const { isOpen, x, y } = contextmenu;
+	const { x, y } = contextmenu;
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
+	const [
+		pos,
+		setPos
+	] = useState<Position>({ x: 0, y: 0 });
 	const { nodeList, edgeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(
 		AdjacencyListContext
 	);
 
-	let innerX = x;
-	let innerY = y;
-	if (x + 200 > window.innerWidth) {
-		innerX = x - 200;
-	}
-	if (y + 170 > window.innerHeight) {
-		innerY = y - 150;
-	}
-
-	useEffect(() => {}, [
-		x,
-		y,
-		nodeList
-	]);
+	useEffect(
+		() => {
+			let innerX = x;
+			let innerY = y;
+			if (x + 200 > window.innerWidth) {
+				innerX = x - 200;
+			}
+			if (y + 170 > window.innerHeight) {
+				innerY = y - 150;
+			}
+			setPos({ x: innerX, y: innerY });
+		},
+		[
+			x,
+			y,
+			nodeList
+		]
+	);
 
 	const result = contextMenuState(nodeList, x, y);
 
@@ -84,14 +97,15 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
 		deleteNode(x, y);
+		console.log('deleted ');
 		redrawCanvas(nodeList, edgeList, canvas, context);
-		setContextMenuState(false);
+		//setContextMenuState(false);
 	};
 
 	return (
 		<div
 			className="context-menu"
-			style={{ left: innerX, top: innerY, position: 'absolute' }}
+			style={{ left: pos.x, top: pos.y, position: 'absolute' }}
 			onContextMenu={handleRightClick}
 		>
 			{

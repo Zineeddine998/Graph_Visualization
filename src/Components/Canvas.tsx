@@ -66,6 +66,7 @@ const Canvas = () => {
 
 	const handleRightClick = (event: React.MouseEvent): void => {
 		event.preventDefault();
+		console.log('hrllkhglkshg');
 		setContextMenuState(true, event.clientX, event.clientY);
 	};
 
@@ -89,7 +90,7 @@ const Canvas = () => {
 
 	const handleMouseDown = (event: React.MouseEvent): void => {
 		event.preventDefault();
-		if (canvas && event.button !== 2) {
+		if (canvas && event.buttons !== 1) {
 			const x = event.clientX;
 			const y = event.clientY;
 			const rect = canvas.getBoundingClientRect();
