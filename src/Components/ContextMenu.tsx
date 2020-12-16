@@ -10,6 +10,7 @@ import adjacencyListProvider from '../Types/adjacencyListProvider';
 import contextMenuState from '../Actions/contextMenuState';
 import getNextIndex from '../Actions/getNextIndex';
 import redrawCanvas from '../Actions/redrawCanvas';
+import NewEdge from './NewEdge';
 
 type AppProps = {
 	contextmenu: contextMenu;
@@ -131,18 +132,6 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 		setContextMenuState(false);
 	};
 
-	const handleAddDirectedEdge = (event: React.FormEvent<HTMLDivElement>): void => {
-		event.preventDefault();
-		console.log('Add Directed Edge');
-		setContextMenuState(false);
-	};
-
-	const handleAddUndirectedEdge = (event: React.FormEvent<HTMLDivElement>): void => {
-		event.preventDefault();
-		console.log('Add Undirected Edge');
-		setContextMenuState(false);
-	};
-
 	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
 		deleteNode(x, y);
@@ -179,19 +168,9 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 				>
 					{nodeList.map((value: node) => {
 						if (value.value !== index) {
-							return (
-								<div
-									key={value.value}
-									onClick={
-
-											newedge.directed ? handleAddDirectedEdge :
-											handleAddUndirectedEdge
-									}
-									className="context-menu-option"
-								>
-									{value.value}
-								</div>
-							);
+							if (value.value !== index && newedge.directed !== undefined) {
+								return <NewEdge source={index} target={value.value} directed={newedge.directed} />;
+							}
 						}
 
 						return null;
@@ -218,18 +197,13 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 						</div>
 						<div
 							className="context-menu-option context-menu-arrow"
-							onClick={handleAddDirectedEdge}
 							ref={divElement}
 							onMouseEnter={handleMouseInDirected}
 						>
 							<span className="context-menu-arrow-text">Add Direceted Edge</span>
 							<span className="context-menu-arrow-head">&#129170;</span>
 						</div>
-						<div
-							className="context-menu-option context-menu-arrow"
-							onClick={handleAddUndirectedEdge}
-							onMouseEnter={handleMouseInUndirected}
-						>
+						<div className="context-menu-option context-menu-arrow" onMouseEnter={handleMouseInUndirected}>
 							<span className="context-menu-arrow-text context-menu-arrow">Add Undireceted Edge</span>
 							<span className="context-menu-arrow-head">&#129170;</span>
 						</div>
