@@ -117,7 +117,6 @@ const Header = () => {
 
 	return (
 		<header className="navbar">
-			<h4 className="header-text">Graph Visualisation</h4>
 			<select value={source} onChange={handleSourceChange} className="source-node dropdown">
 				{nodeList.map((node) => {
 					return <option key={node.value} value={node.value}>{`Node ${node.value}`}</option>;

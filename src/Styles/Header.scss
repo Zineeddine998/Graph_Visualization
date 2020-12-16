@@ -1,3 +1,7 @@
+$small: 320px;
+$medium: 768px;
+$large: 1024px;
+
 [data-theme="dark"] {
 	--header-color: #2b3595;
 	--color-headings: #25b45c;
@@ -8,7 +12,7 @@
 	--color-headings: #1d20d3;
 }
 .header-text {
-	text-align: center;
+	position: relative;
 }
 
 .navbar {
@@ -18,6 +22,14 @@
 	grid-template-columns: repeat(16, 1fr);
 	grid-template-rows: 50px;
 	column-gap: 1em;
+	@media screen and (max-width: $small) {
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(2, 50px);
+	}
+	@media screen and (max-width: $medium) {
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: 50px;
+	}
 }
 .dropdown {
 	border-radius: 20px;
@@ -30,15 +42,39 @@
 }
 .source-node {
 	grid-column: 1 / 3;
+	@media screen and (max-width: $small) {
+		grid-column: 1;
+		grid-row: 1;
+	}
+	@media screen and (max-width: $medium) {
+		grid-column: 1;
+		grid-row: 1;
+	}
 }
 
 .target-node {
 	grid-column: 3 / 5;
+	@media screen and (max-width: $small) {
+		grid-column: 2;
+		grid-row: 1;
+	}
+	@media screen and (max-width: $medium) {
+		grid-column: 2;
+		grid-row: 1;
+	}
 }
 
 .toggle-container {
 	grid-column: 16;
 	grid-row: 1;
+	@media screen and (max-width: $small) {
+		grid-column: 3;
+		grid-row: 1;
+	}
+	@media screen and (max-width: $medium) {
+		grid-column: 3;
+		grid-row: 1;
+	}
 	margin: auto;
 }
 .toggle-switch {
@@ -93,14 +129,33 @@ html.transition *:after {
 
 .header-button {
 	min-width: 120px;
+	@media screen and (max-width: $medium) {
+		min-width: 120px;
+	}
 }
 
 .add-edge-one {
 	grid-column: 5 / 7;
+	@media screen and (max-width: $small) {
+		grid-column: 1;
+		grid-row: 2;
+	}
+	@media screen and (max-width: $medium) {
+		grid-column: 1;
+		grid-row: 2;
+	}
 }
 
 .add-edge-two {
 	grid-column: 7 / 9;
+	@media screen and (max-width: $small) {
+		grid-column: 3;
+		grid-row: 2;
+	}
+	@media screen and (max-width: $medium) {
+		grid-column: 3;
+		grid-row: 2;
+	}
 }
 
 .clear-canvas {
