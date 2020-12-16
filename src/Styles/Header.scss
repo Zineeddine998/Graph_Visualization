@@ -33,6 +33,8 @@ $large: 1024px;
 }
 .dropdown {
 	border-radius: 20px;
+	appearance: none;
+	padding: 1em;
 }
 .dropdown:active,
 .dropdown:focus {
@@ -128,7 +130,8 @@ html.transition *:after {
 }
 
 .header-button {
-	min-width: 120px;
+	height: 50px;
+	border-radius: 20px;
 	@media screen and (max-width: $medium) {
 		min-width: 120px;
 	}
@@ -157,7 +160,6 @@ html.transition *:after {
 		grid-row: 2;
 	}
 }
-
 .clear-canvas {
 	grid-column: 9 / 11;
 }

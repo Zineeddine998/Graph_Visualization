@@ -1,4 +1,6 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
+import '../Styles/Header.scss';
+import '../Styles/App.scss';
 import { CanvasContext } from '../Context/CanvasContext';
 import contextMenu from '../Types/contextMenu';
 import canvasProvider from '../Types/canvasProvider';
