@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import { CanvasContext } from '../Context/CanvasContext';
 import contextMenu from '../Types/contextMenu';
 import canvasProvider from '../Types/canvasProvider';
@@ -16,18 +16,47 @@ type AppProps = {
 	setContextMenuState(state: boolean, x?: number, y?: number): void;
 };
 
-type Position = {
+type DropdownMenu = {
+	isOpen: boolean;
+	directed?: boolean;
+};
+
+type position = {
 	x: number;
 	y: number;
 };
 
+type secondPosition = {
+	x: number;
+	y1: number;
+	y2: number;
+};
+
 const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
-	const { x, y } = contextmenu;
-	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
+	const [
+		newedge,
+		setNewedge
+	] = useState<DropdownMenu>({ isOpen: false });
 	const [
 		pos,
 		setPos
-	] = useState<Position>({ x: 0, y: 0 });
+	] = useState<position>({ x: 0, y: 0 });
+	const [
+		divpos,
+		setDivPos
+	] = useState<secondPosition>({ x: 0, y1: 0, y2: 0 });
+	const [
+		index,
+		setIndex
+	] = useState<number>(-1);
+	const [
+		result,
+		setResult
+	] = useState<boolean>(true);
+	const divElement = useRef<HTMLDivElement>(null);
+	//eslint-disable-next-line
+	const { isOpen, x, y } = contextmenu;
+	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
 	const { nodeList, edgeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(
 		AdjacencyListContext
 	);
@@ -36,22 +65,41 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 		() => {
 			let innerX = x;
 			let innerY = y;
+			if (divElement.current !== null) {
+				const rect = divElement.current.getBoundingClientRect();
+				setDivPos({ x: rect.right, y1: rect.top, y2: rect.bottom });
+			}
+
 			if (x + 200 > window.innerWidth) {
 				innerX = x - 200;
 			}
 			if (y + 170 > window.innerHeight) {
-				innerY = y - 150;
+				innerY = y - 170;
 			}
 			setPos({ x: innerX, y: innerY });
+			setResult(contextMenuState(nodeList, x, y));
+			if (result === false) {
+				for (let iter of nodeList) {
+					if (Math.abs(x - iter.clientX) < 20 && Math.abs(y - iter.clientY) < 20) {
+						console.log(iter.value);
+						setIndex(iter.value);
+					}
+				}
+			}
 		},
 		[
 			x,
 			y,
-			nodeList
+			nodeList,
+			index,
+			result
 		]
 	);
 
-	const result = contextMenuState(nodeList, x, y);
+	const setNewEdgeWrapper = (isOpen: boolean, directed: boolean = true): void => {
+		const newEdge = { isOpen: isOpen, directed: directed };
+		setNewedge(newEdge);
+	};
 
 	const handleRightClick = (event: React.MouseEvent): void => {
 		event.preventDefault();
@@ -75,6 +123,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 
 	const handleClearCanvas = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
+		console.log('Clear Canvas');
 		if (context && canvas) {
 			context.clearRect(0, 0, canvas.width, canvas.height);
 			clearNodes();
@@ -84,48 +133,108 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 
 	const handleAddDirectedEdge = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
-		console.log('this is the handler for adding directed edges');
+		console.log('Add Directed Edge');
 		setContextMenuState(false);
 	};
 
 	const handleAddUndirectedEdge = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
-		console.log('this is the handler for adding undirected edges');
+		console.log('Add Undirected Edge');
 		setContextMenuState(false);
 	};
 
 	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
 		deleteNode(x, y);
-		console.log('deleted ');
 		redrawCanvas(nodeList, edgeList, canvas, context);
-		//setContextMenuState(false);
+		setContextMenuState(false);
+	};
+
+	const handleMouseInDirected = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		setNewEdgeWrapper(true, true);
+	};
+
+	const handleMouseInUndirected = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		setNewEdgeWrapper(true, false);
+	};
+	const handleMouseOut = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		setNewEdgeWrapper(false);
 	};
 
 	return (
-		<div
-			className="context-menu"
-			style={{ left: pos.x, top: pos.y, position: 'absolute' }}
-			onContextMenu={handleRightClick}
-		>
+		<div className="context-menu-container" onMouseLeave={handleMouseOut}>
 			{
-				result ? <div>
-					<div className="context-menu-option" onClick={handleAddNode}>
-						Add Node
-					</div>
-					<div className="context-menu-option" onClick={handleClearCanvas}>
-						Clear Canvas
-					</div>
-					<div className="context-menu-option" onClick={handleAddDirectedEdge}>
-						Add Directed Edge
-					</div>
-					<div className="context-menu-option" onClick={handleAddUndirectedEdge}>
-						Add Undirected Edge
-					</div>
+				newedge.isOpen ? <div
+					className="context-menu"
+					style={{
+						left: divpos.x,
+						top:
+							newedge.directed ? divpos.y1 :
+							divpos.y2,
+						position: 'absolute'
+					}}
+				>
+					{nodeList.map((value: node) => {
+						if (value.value !== index) {
+							return (
+								<div
+									key={value.value}
+									onClick={
+
+											newedge.directed ? handleAddDirectedEdge :
+											handleAddUndirectedEdge
+									}
+									className="context-menu-option"
+								>
+									{value.value}
+								</div>
+							);
+						}
+
+						return null;
+					})}
 				</div> :
-				<div className="context-menu-option" onClick={handleDeleteNode}>
-					Delete Node
-				</div>}
+				<React.Fragment />}
+			<div
+				className="context-menu"
+				style={{ left: pos.x, top: pos.y, position: 'absolute' }}
+				onContextMenu={handleRightClick}
+			>
+				{
+					result ? <div>
+						<div className="context-menu-option" onClick={handleAddNode}>
+							Add Node
+						</div>
+						<div className="context-menu-option" onClick={handleClearCanvas}>
+							Clear Canvas
+						</div>
+					</div> :
+					<div>
+						<div className="context-menu-option" onClick={handleDeleteNode}>
+							Delete Node
+						</div>
+						<div
+							className="context-menu-option context-menu-arrow"
+							onClick={handleAddDirectedEdge}
+							ref={divElement}
+							onMouseEnter={handleMouseInDirected}
+						>
+							<span className="context-menu-arrow-text">Add Direceted Edge</span>
+							<span className="context-menu-arrow-head">&#129170;</span>
+						</div>
+						<div
+							className="context-menu-option context-menu-arrow"
+							onClick={handleAddUndirectedEdge}
+							onMouseEnter={handleMouseInUndirected}
+						>
+							<span className="context-menu-arrow-text context-menu-arrow">Add Undireceted Edge</span>
+							<span className="context-menu-arrow-head">&#129170;</span>
+						</div>
+					</div>}
+			</div>
 		</div>
 	);
 };

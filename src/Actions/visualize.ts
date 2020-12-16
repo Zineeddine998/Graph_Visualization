@@ -14,7 +14,7 @@ const slowDrawNode = (
 	console.log(value);
 	drawNode(value, context, x, y, '#536364');
 	setTimeout(() => {
-		drawNode(value, context, x, y, '#98869');
+		drawNode(value, context, x, y, color);
 	}, 1000 * wait);
 };
 
@@ -47,7 +47,7 @@ const visualize = (
 		for (let item of nodeList) {
 			//drawNode(item.value, context, item.canvasX, item.canvasY, '#410000');
 			i++;
-			slowDrawNode(i, item.value, context, item.canvasX, item.canvasY, '#416464');
+			slowDrawNode(i, item.value, context, item.canvasX, item.canvasY, '#410000');
 		}
 	}
 };
