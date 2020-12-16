@@ -71,6 +71,7 @@
 	border: var(--font-color) 1px solid;
 	padding: 10px;
 	margin-bottom: 2px;
+	height: 22px;
 	cursor: pointer;
 
 	&:hover {
@@ -85,4 +86,9 @@
 .context-menu-arrow {
 	display: flex;
 	justify-content: space-between;
+}
+
+.context-menu-new-edge {
+	max-height: 200px;
+	overflow-y: auto;
 }

@@ -66,16 +66,32 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 		() => {
 			let innerX = x;
 			let innerY = y;
-			if (divElement.current !== null) {
-				const rect = divElement.current.getBoundingClientRect();
-				setDivPos({ x: rect.right, y1: rect.top, y2: rect.bottom });
-			}
+			// if (divElement.current !== null) {
+			// 	const rect = divElement.current.getBoundingClientRect();
+			// 	setDivPos({ x: rect.right, y1: rect.top, y2: rect.bottom });
+			// // }
 
 			if (x + 200 > window.innerWidth) {
 				innerX = x - 200;
 			}
-			if (y + 170 > window.innerHeight) {
-				innerY = y - 170;
+			if (y + 150 > window.innerHeight) {
+				innerY = y - 150;
+			}
+			if (divElement.current != null) {
+				const rect = divElement.current.getBoundingClientRect();
+				let right = rect.right;
+				let top = rect.top;
+				let bottom = rect.bottom;
+				if (rect.right + 200 > window.innerWidth) {
+					right -= 400;
+				}
+				if (rect.top + 150 > window.innerHeight) {
+					top -= 200;
+				}
+				if (rect.bottom + 150 > window.innerHeight) {
+					bottom -= 200;
+				}
+				setDivPos({ x: right, y1: top, y2: bottom });
 			}
 			setPos({ x: innerX, y: innerY });
 			setResult(contextMenuState(nodeList, x, y));
@@ -157,7 +173,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 		<div className="context-menu-container" onMouseLeave={handleMouseOut}>
 			{
 				newedge.isOpen ? <div
-					className="context-menu"
+					className="context-menu-new-edge"
 					style={{
 						left: divpos.x,
 						top:

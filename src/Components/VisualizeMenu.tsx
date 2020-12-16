@@ -16,13 +16,39 @@ import ContextMenu from './ContextMenu';
 import getNextIndex from '../Actions/getNextIndex';
 import topologicalSort from '../Algorithms/TopologicalSort';
 import visualize from '../Actions/visualize';
+import breadthFirstTraversal from '../Algorithms/BreadthFirstTraversal';
+import depthFirstSeach from '../Algorithms/DepthFirstTraversal';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
+	const [
+		algorithm,
+		setAlgorithm
+	] = useState<number>(1);
+
 	const handleVisualize = (event: React.FormEvent<HTMLDivElement>) => {
 		event.preventDefault();
-		const result = topologicalSort(adjacencyList, nodeList);
+		let result: number[] = [];
+		switch (algorithm) {
+			case 1: {
+				result = topologicalSort(adjacencyList, nodeList);
+				break;
+			}
+			case 2: {
+				result = breadthFirstTraversal(adjacencyList);
+				break;
+			}
+
+			case 3: {
+				result = depthFirstSeach(adjacencyList);
+				break;
+			}
+
+			default: {
+				result = [];
+			}
+		}
 
 		let resultNodes: node[] = [];
 		for (let item of result) {
@@ -34,11 +60,23 @@ const VisualizeMenu = () => {
 		}
 		visualize(resultNodes, edgeList, canvas, context);
 	};
-	console.log('rendered');
+
+	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		event.preventDefault();
+		setAlgorithm(+event.target.value);
+	};
 	return (
 		<div className="visualize-container">
-			<select name="algorithm" className="visualize-select">
-				<option className="visualize-option">Topological Sort</option>
+			<select name="algorithm" className="visualize-select" value={algorithm} onChange={handleSelectChange}>
+				<option className="visualize-option" value={1}>
+					Topological Sort
+				</option>
+				<option className="visualize-option" value={2}>
+					Breadth First Traversal
+				</option>
+				<option className="visualize-option" value={3}>
+					Depth First Traversal
+				</option>
 			</select>
 			<div className="visualize-button" onClick={handleVisualize}>
 				Visualize

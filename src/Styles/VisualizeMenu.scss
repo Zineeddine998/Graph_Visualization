@@ -93,6 +93,7 @@
 .visualize-button {
 	margin: auto;
 	max-width: 100%;
+	min-height: 22px;
 	line-height: 100%;
 	text-align: center;
 	vertical-align: middle;
@@ -101,6 +102,7 @@
 	border-top: none;
 	background-color: '#eeeeee';
 	cursor: pointer;
+	z-index: -1;
 }
 
 .visualize-button:hover {

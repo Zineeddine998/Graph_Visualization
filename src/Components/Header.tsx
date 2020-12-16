@@ -118,12 +118,12 @@ const Header = () => {
 	return (
 		<header className="navbar">
 			<h4 className="header-text">Graph Visualisation</h4>
-			<select value={source} onChange={handleSourceChange} className="source-node">
+			<select value={source} onChange={handleSourceChange} className="source-node dropdown">
 				{nodeList.map((node) => {
 					return <option key={node.value} value={node.value}>{`Node ${node.value}`}</option>;
 				})}
 			</select>
-			<select value={target} onChange={handleTargetChange} className="target-node">
+			<select value={target} onChange={handleTargetChange} className="target-node dropdown">
 				{nodeList.map((node: node) => {
 					if (node.value.toString() !== source) {
 						return <option key={node.value} value={node.value}>{`Node ${node.value}`}</option>;
@@ -133,13 +133,13 @@ const Header = () => {
 					}
 				})}
 			</select>
-			<button className="add-edge" onClick={handleNewDirectedEdge}>
+			<button className="add-edge-one header-button" onClick={handleNewDirectedEdge}>
 				Add Directed Edge
 			</button>
-			<button className="add-edge" onClick={handleNewUndirectedEdge}>
+			<button className="add-edge-two header-button" onClick={handleNewUndirectedEdge}>
 				Add Undirected Edge
 			</button>
-			<button className="clear-canvas" onClick={handleClearCanvas}>
+			<button className="clear-canvas header-button" onClick={handleClearCanvas}>
 				Clear Nodes
 			</button>
 			<div className="toggle-container">
