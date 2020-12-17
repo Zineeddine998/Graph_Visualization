@@ -23,7 +23,6 @@ const depthFirstSearch = (adjacencyList: adjacencyListObject[]): number[] => {
 	let result: number[] = [];
 	let visited: Set<number> = new Set<number>();
 	depthFirstSearchUtil(adjacencyList, result, visited, adjacencyList[0].value);
-	console.log(result);
 	return result;
 };
 

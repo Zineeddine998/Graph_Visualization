@@ -1,18 +1,16 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
-import '../Styles/Header.scss';
-import '../Styles/App.scss';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { CanvasContext } from '../Context/CanvasContext';
-import contextMenu from '../Types/contextMenu';
-import canvasProvider from '../Types/canvasProvider';
 import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import node from '../Types/Node';
+import contextMenu from '../Types/contextMenu';
+import canvasProvider from '../Types/canvasProvider';
+import adjacencyListProvider from '../Types/adjacencyListProvider';
 import drawNode from '../Actions/drawNode';
 import createNode from '../Actions/createNode';
-import adjacencyListProvider from '../Types/adjacencyListProvider';
 import contextMenuState from '../Actions/contextMenuState';
 import getNextIndex from '../Actions/getNextIndex';
 import redrawCanvas from '../Actions/redrawCanvas';
-import NewEdge from './NewEdge';
+import Newedge from './NewEdge';
 
 type AppProps = {
 	contextmenu: contextMenu;
@@ -29,7 +27,7 @@ type position = {
 	y: number;
 };
 
-type secondPosition = {
+type positionTwo = {
 	x: number;
 	y1: number;
 	y2: number;
@@ -46,8 +44,8 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	] = useState<position>({ x: 0, y: 0 });
 	const [
 		divpos,
-		setDivPos
-	] = useState<secondPosition>({ x: 0, y1: 0, y2: 0 });
+		setDivpos
+	] = useState<positionTwo>({ x: 0, y1: 0, y2: 0 });
 	const [
 		index,
 		setIndex
@@ -68,16 +66,11 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 		() => {
 			let innerX = x;
 			let innerY = y;
-			// if (divElement.current !== null) {
-			// 	const rect = divElement.current.getBoundingClientRect();
-			// 	setDivPos({ x: rect.right, y1: rect.top, y2: rect.bottom });
-			// // }
-
 			if (x + 200 > window.innerWidth) {
 				innerX = x - 200;
 			}
 			if (y + 150 > window.innerHeight) {
-				innerY = y - 150;
+				innerY = y - 100;
 			}
 			if (divElement.current != null) {
 				const rect = divElement.current.getBoundingClientRect();
@@ -85,15 +78,15 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 				let top = rect.top;
 				let bottom = rect.bottom;
 				if (rect.right + 200 > window.innerWidth) {
-					right -= 400;
+					right = right - 400;
 				}
 				if (rect.top + 150 > window.innerHeight) {
-					top -= 200;
+					top = top - 200;
 				}
 				if (rect.bottom + 150 > window.innerHeight) {
-					bottom -= 200;
+					bottom = bottom - 200;
 				}
-				setDivPos({ x: right, y1: top, y2: bottom });
+				setDivpos({ x: right, y1: top, y2: bottom });
 			}
 			setPos({ x: innerX, y: innerY });
 			setResult(contextMenuState(nodeList, x, y));
@@ -166,6 +159,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 		event.preventDefault();
 		setNewEdgeWrapper(true, false);
 	};
+
 	const handleMouseOut = (event: React.MouseEvent): void => {
 		event.preventDefault();
 		setNewEdgeWrapper(false);
@@ -175,7 +169,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 		<div className="context-menu-container" onMouseLeave={handleMouseOut}>
 			{
 				newedge.isOpen ? <div
-					className="context-menu-new-edge"
+					className="context-menu context-menu-new-edge"
 					style={{
 						left: divpos.x,
 						top:
@@ -185,12 +179,16 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 					}}
 				>
 					{nodeList.map((value: node) => {
-						if (value.value !== index) {
-							if (value.value !== index && newedge.directed !== undefined) {
-								return <NewEdge source={index} target={value.value} directed={newedge.directed} />;
-							}
+						if (value.value !== index && newedge.directed !== undefined) {
+							return (
+								<Newedge
+									key={value.value}
+									source={index}
+									target={value.value}
+									directed={newedge.directed}
+								/>
+							);
 						}
-
 						return null;
 					})}
 				</div> :

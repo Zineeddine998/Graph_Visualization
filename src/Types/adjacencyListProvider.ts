@@ -4,12 +4,12 @@ import adjacencyListObject from './adjacencyListObject';
 
 interface adjacencyListProvider {
 	nodeList: node[];
-	addNode: (node: node) => void;
 	edgeList: edge[];
 	adjacencyList: adjacencyListObject[];
+	addNode: (node: node) => void;
 	addEdge: (edge: edge) => void;
 	moveNode: (index: node) => void;
-	clearNodes: () => void;
 	deleteNode: (x: number, y: number) => void;
+	clearNodes: () => void;
 }
 export default adjacencyListProvider;

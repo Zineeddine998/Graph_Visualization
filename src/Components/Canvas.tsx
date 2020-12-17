@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import { AdjacencyListContext } from '../Context/AdjacencyListContext';
+import { CanvasContext } from '../Context/CanvasContext';
 import useWindowSize from '../Hooks/WindowSize';
 import node from '../Types/Node';
-import createNode from '../Actions/createNode';
-import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import adjacencyListProvider from '../Types/adjacencyListProvider';
-import { CanvasContext } from '../Context/CanvasContext';
 import canvasProvider from '../Types/canvasProvider';
-import redrawCanvas from '../Actions/redrawCanvas';
-import drawNode from '../Actions/drawNode';
 import contextMenu from '../Types/contextMenu';
-import ContextMenu from './ContextMenu';
 import getNextIndex from '../Actions/getNextIndex';
+import redrawCanvas from '../Actions/redrawCanvas';
+import createNode from '../Actions/createNode';
+import drawNode from '../Actions/drawNode';
+import Contextmenu from '../Components/ContextMenu';
 
 const Canvas = () => {
 	const initialContextMenu: contextMenu = { isOpen: false, x: 0, y: 0 };
 	const [
 		nodetomove,
-		setNodeToMove
+		setNodetomove
 	] = useState<node | null>(null);
 	const [
 		button,
@@ -90,7 +90,7 @@ const Canvas = () => {
 				node.clientY = y;
 				node.canvasX = x - rect.left;
 				node.canvasY = y - rect.top;
-				setNodeToMove(node);
+				setNodetomove(node);
 			}
 		}
 		if (event.buttons === 2) {
@@ -110,7 +110,7 @@ const Canvas = () => {
 			node.clientY = y;
 			node.canvasX = x - rect.left;
 			node.canvasY = y - rect.top;
-			setNodeToMove(node);
+			setNodetomove(node);
 
 			moveNode(nodetomove);
 			redrawCanvas(nodeList, edgeList, canvas, context);
@@ -121,7 +121,7 @@ const Canvas = () => {
 		event.preventDefault();
 		console.log(event.buttons);
 		if (nodetomove) {
-			setNodeToMove(null);
+			setNodetomove(null);
 		}
 		else {
 			if (contextmenu.isOpen === false && canvas) {
@@ -154,12 +154,13 @@ const Canvas = () => {
 
 	const handleMouseOut = (event: React.MouseEvent): void => {
 		event.preventDefault();
-		setNodeToMove(null);
+		setNodetomove(null);
 	};
+
 	return (
 		<div className="canvas-container">
 			{
-				contextmenu.isOpen ? <ContextMenu
+				contextmenu.isOpen ? <Contextmenu
 					contextmenu={contextmenu}
 					setContextMenuState={setContextMenuState}
 				/> :

@@ -1,83 +1,3 @@
-// [data-theme="dark"] {
-// 	--header-color: #2b3595;
-// 	--color-headings: #25b45c;
-// }
-
-// [data-theme="light"] {
-// 	--header-color: #9ab3f5;
-// 	--color-headings: #1d20d3;
-// }
-// .header-text {
-// 	text-align: center;
-// }
-
-// .navbar {
-// 	background-color: var(--header-color);
-// 	padding: 1.5em;
-// 	display: grid;
-// 	grid-template-columns: repeat(7, 1fr);
-// 	column-gap: 1em;
-// }
-
-// .source-node {
-// 	grid-column: 1;
-// }
-// .target-node {
-// 	grid-column: 2;
-// }
-// .toggle-container {
-// 	grid-column: 7;
-// }
-// .toggle-switch {
-// 	height: 0;
-// 	width: 0;
-// 	visibility: hidden;
-// }
-
-// .toggle-label {
-// 	cursor: pointer;
-// 	text-indent: -9999px;
-// 	width: 52px;
-// 	height: 27px;
-// 	background: grey;
-// 	float: right;
-// 	border-radius: 100px;
-// 	position: relative;
-// 	margin-top: 10px;
-// 	margin-right: 10px;
-// }
-// .toggle-label:after {
-// 	content: "";
-// 	position: absolute;
-// 	top: 3px;
-// 	left: 3px;
-// 	width: 20px;
-// 	height: 20px;
-// 	background: rgb(255, 255, 255);
-// 	border-radius: 90px;
-// 	transition: 0.3s;
-// }
-// .toggle-switch:checked + .toggle-label {
-// 	background: var(--color-headings);
-// }
-
-// .toggle-switch:checked + .toggle-label:after {
-// 	left: calc(100% - 5px);
-// 	transform: translateX(-100%);
-// }
-
-// .toggle-label:active:after {
-// 	width: 45px;
-// }
-
-// html.transition,
-// html.transition *,
-// html.transition *:before,
-// html.transition *:after {
-// 	transition: all 750ms !important;
-// 	transition-delay: 0 !important;
-// }
-
 .visualize-container {
 	margin: auto;
 	bottom: 0;
@@ -85,30 +5,27 @@
 	right: 0;
 	min-width: 200px;
 	width: 25vw;
-	height: 10vh;
 	position: absolute;
-	background-color: red;
 }
 
 .visualize-button {
 	margin: auto;
 	max-width: 100%;
-	min-height: 22px;
+	min-height: 20px;
 	line-height: 100%;
 	text-align: center;
 	vertical-align: middle;
 	padding: 1em;
 	border: black 4px solid;
 	border-top: none;
-	background-color: '#eeeeee';
+	background-color: #eeeeee;
 	cursor: pointer;
-	z-index: -1;
 }
 
 .visualize-button:hover {
 	border: black 4px solid;
 	border-top: none;
-	background-color: '#cccccc';
+	background-color: #cccccc;
 }
 
 .visualize-select {

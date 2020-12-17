@@ -5,76 +5,60 @@ import edge from '../Types/Edge';
 import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import canvasProvider from '../Types/canvasProvider';
 import { CanvasContext } from '../Context/CanvasContext';
-import drawEdge from '../Actions/drawEdge';
-import drawNode from '../Actions/drawNode';
+import DropDown from './DropDown';
 
 const Header = () => {
-	// const transform = () => {
-	// 	return null;
-	// };
 	const [
 		source,
 		setSource
-	] = useState<string>('');
+	] = useState<number>(0);
 	const [
 		target,
 		setTarget
-	] = useState<string>('');
-	const { nodeList, edgeList, addNode, addEdge, clearNodes } = useContext(AdjacencyListContext);
-
+	] = useState<number>(0);
+	const { nodeList, addEdge, clearNodes } = useContext(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
-	console.log(nodeList, edgeList, addNode, addEdge);
 
-	let newNode: node = nodeList[0];
-	console.log(newNode);
-
-	const handleClearCanvas = (event: React.FormEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		if (context && canvas) {
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			clearNodes();
-		}
-	};
 	const handleThemeChange = (value: boolean): void => {
+		console.log('test');
 		if (value) {
-			transform();
+			trans();
 			document.documentElement.setAttribute('data-theme', 'dark');
 		}
 		else {
-			transform();
+			trans();
 			document.documentElement.setAttribute('data-theme', 'light');
 		}
 	};
 
-	const handleSourceChange = (event: React.FormEvent<HTMLSelectElement>) => {
-		setSource((event.target as HTMLSelectElement).value);
-	};
+	// const handleSourceChange = (event: React.FormEvent<HTMLSelectElement>) => {
+	//   setSource((event.target as HTMLSelectElement).value);
+	// };
 
-	const handleTargetChange = (event: React.FormEvent<HTMLSelectElement>) => {
-		setTarget((event.target as HTMLSelectElement).value);
-	};
+	// const handleTargetChange = (event: React.FormEvent<HTMLSelectElement>) => {
+	//   setTarget((event.target as HTMLSelectElement).value);
+	// };
 
 	const handleNewDirectedEdge = (event: React.FormEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		if (context && canvas) {
-			let sourceNb: number = +source;
-			let targetNb: number = +target;
+			let sourceNum: number = source;
+			let targetNum: number = target;
 			let sourceNode: node | null = null;
 			let targetNode: node | null = null;
-			for (let item of nodeList) {
-				if (item.value === sourceNb) {
-					sourceNode = item;
+			for (let itr of nodeList) {
+				if (itr.value === sourceNum) {
+					sourceNode = itr;
 				}
-				else if (item.value === targetNb) {
-					targetNode = item;
+				else if (itr.value === targetNum) {
+					targetNode = itr;
 				}
 			}
-
 			if (sourceNode && targetNode) {
 				const newEdge: edge = {
 					source: sourceNode,
 					target: targetNode,
-					directed: false
+					directed: true
 				};
 				addEdge(newEdge);
 			}
@@ -84,19 +68,18 @@ const Header = () => {
 	const handleNewUndirectedEdge = (event: React.FormEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		if (context && canvas) {
-			let sourceNb: number = +source;
-			let targetNb: number = +target;
+			let sourceNum: number = source;
+			let targetNum: number = target;
 			let sourceNode: node | null = null;
 			let targetNode: node | null = null;
-			for (let item of nodeList) {
-				if (item.value === sourceNb) {
-					sourceNode = item;
+			for (let itr of nodeList) {
+				if (itr.value === sourceNum) {
+					sourceNode = itr;
 				}
-				else if (item.value === targetNb) {
-					targetNode = item;
+				else if (itr.value === targetNum) {
+					targetNode = itr;
 				}
 			}
-
 			if (sourceNode && targetNode) {
 				const newEdge: edge = {
 					source: sourceNode,
@@ -108,7 +91,15 @@ const Header = () => {
 		}
 	};
 
-	let transform = () => {
+	const handleClearCanvas = (event: React.FormEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		if (context && canvas) {
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			clearNodes();
+		}
+	};
+
+	let trans = () => {
 		document.documentElement.classList.add('transition');
 		window.setTimeout(() => {
 			document.documentElement.classList.remove('transition');
@@ -117,21 +108,40 @@ const Header = () => {
 
 	return (
 		<header className="navbar">
-			<select value={source} onChange={handleSourceChange} className="source-node dropdown">
-				{nodeList.map((node) => {
-					return <option key={node.value} value={node.value}>{`Node ${node.value}`}</option>;
-				})}
-			</select>
-			<select value={target} onChange={handleTargetChange} className="target-node dropdown">
-				{nodeList.map((node: node) => {
-					if (node.value.toString() !== source) {
-						return <option key={node.value} value={node.value}>{`Node ${node.value}`}</option>;
-					}
-					else {
-						return <React.Fragment key={Math.random() * 100} />;
-					}
-				})}
-			</select>
+			<DropDown nodeList={nodeList} value={source} setNode={setSource} />
+			<DropDown nodeList={nodeList} value={target} setNode={setTarget} />
+			{/* <select
+		  value={source}
+		  onChange={handleSourceChange}
+		  className="source-node dropdown"
+		>
+		  {nodeList.map((node) => {
+			return (
+			  <option
+				key={node.count}
+				value={node.count}
+			  >{`Node ${node.count}`}</option>
+			);
+		  })}
+		</select>
+		<select
+		  value={target}
+		  onChange={handleTargetChange}
+		  className="target-node dropdown"
+		>
+		  {nodeList.map((node: node) => {
+			if (node.count.toString() !== source) {
+			  return (
+				<option
+				  key={node.count}
+				  value={node.count}
+				>{`Node ${node.count}`}</option>
+			  );
+			} else {
+			  return <React.Fragment key={Math.random() * 100} />;
+			}
+		  })}
+		</select> */}
 			<button className="add-edge-one header-button" onClick={handleNewDirectedEdge}>
 				Add Directed Edge
 			</button>
@@ -139,19 +149,19 @@ const Header = () => {
 				Add Undirected Edge
 			</button>
 			<button className="clear-canvas header-button" onClick={handleClearCanvas}>
-				Clear Nodes
+				Clear Canvas
 			</button>
 			<div className="toggle-container">
 				<input
 					type="checkbox"
-					id="swtich"
+					id="switch"
 					className="toggle-switch"
 					onClick={(event) => {
 						handleThemeChange((event.target as HTMLInputElement).checked);
 					}}
 				/>
-				<label htmlFor="swtich" className="toggle-label">
-					Switch
+				<label className="toggle-label" htmlFor="switch">
+					Toggle
 				</label>
 			</div>
 		</header>

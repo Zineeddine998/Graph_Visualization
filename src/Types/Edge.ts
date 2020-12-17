@@ -1,9 +1,9 @@
 import node from './Node';
 
 interface Edge {
+	directed: boolean;
 	source: node;
 	target: node;
-	directed: boolean;
 }
 
 export default Edge;

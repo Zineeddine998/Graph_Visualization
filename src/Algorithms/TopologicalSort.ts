@@ -2,9 +2,7 @@ import adjacencyListObject from '../Types/adjacencyListObject';
 import node from '../Types/Node';
 const getIndex = (adjacencyList: adjacencyListObject[], count: number) => {
 	for (let item in adjacencyList) {
-		console.log(adjacencyList[item].value, count);
 		if (adjacencyList[+item].value - count === 0) {
-			console.log(adjacencyList[item].value, count);
 			return +item;
 		}
 	}
@@ -16,27 +14,21 @@ const dfs = (
 	nodeList: node[],
 	count: number,
 	visited: Set<number>,
-	tempVisited: Set<number>,
+	visited2: Set<number>,
 	result: number[]
 ): boolean => {
 	const index = getIndex(adjacencyList, count);
-	console.log(index);
-	console.log(adjacencyList);
 	visited.add(count);
-	tempVisited.add(count);
+	visited2.add(count);
 	if (adjacencyList[index].target.length === 0) {
-		tempVisited.clear();
+		visited2.clear();
 	}
 	for (let item of adjacencyList[index].target) {
-		if (tempVisited.has(item) === true) {
-			console.log(adjacencyList[index]);
-			console.log(tempVisited);
-			console.log(item);
+		if (visited2.has(item) === true) {
 			return false;
 		}
 		if (visited.has(item) === false) {
-			console.log(item);
-			let value: boolean = dfs(adjacencyList, nodeList, item, visited, tempVisited, result);
+			let value: boolean = dfs(adjacencyList, nodeList, item, visited, visited2, result);
 			if (value === false) {
 				return false;
 			}
@@ -49,18 +41,17 @@ const dfs = (
 const topologicalSort = (adjacencyList: adjacencyListObject[], nodeList: node[]): number[] => {
 	let result: number[] = [];
 	let visited = new Set<number>();
-	for (let iter in adjacencyList) {
-		const item = adjacencyList[+iter];
-		let tempVisited = new Set<number>();
+	for (let elem in adjacencyList) {
+		const item = adjacencyList[+elem];
+		let visited2 = new Set<number>();
 		if (visited.has(item.value) === false) {
-			let value: boolean = dfs(adjacencyList, nodeList, item.value, visited, tempVisited, result);
+			let value: boolean = dfs(adjacencyList, nodeList, item.value, visited, visited2, result);
 			if (value === false) {
 				result = [];
 				return result;
 			}
 		}
 	}
-	console.log(result);
 	return result;
 };
 

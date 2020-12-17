@@ -21,7 +21,7 @@ const NewEdge = ({ source, target, directed }: AppProps) => {
 				if (elem.value === sourceNb) {
 					sourceNode = elem;
 				}
-				if (elem.value === targetNb) {
+				else if (elem.value === targetNb) {
 					targetNode = elem;
 				}
 			}

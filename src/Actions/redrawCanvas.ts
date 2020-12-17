@@ -14,9 +14,6 @@ const redrawCanvas = (
 		const rect = canvas.getBoundingClientRect();
 		for (let item of nodeList) {
 			if (rect.right !== item.windowX || rect.bottom !== item.windowY) {
-				console.log(item.value);
-				console.log(window.innerHeight);
-				console.log(item.windowY);
 				item.clientX = item.clientX * (rect.right / item.windowX);
 				item.clientY = item.clientY * (rect.bottom / item.windowY);
 				item.canvasX = item.clientX - rect.left;
