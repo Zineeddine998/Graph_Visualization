@@ -17,11 +17,11 @@ export const SnackBarContextProvider = (props: Iprops) => {
 	const [
 		open,
 		setOpen
-	] = useState<boolean>(true);
+	] = useState<boolean>(false);
 	const [
 		message,
 		setMessage
-	] = useState<string>('String');
+	] = useState<string>('');
 
 	const toggleSnackbar = (message: string = '') => {
 		if (message.length < 1) {
