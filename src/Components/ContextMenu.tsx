@@ -11,6 +11,8 @@ import contextMenuState from '../Actions/contextMenuState';
 import getNextIndex from '../Actions/getNextIndex';
 import redrawCanvas from '../Actions/redrawCanvas';
 import Newedge from './NewEdge';
+import { ReactComponent as ArrowRight } from '../Icons/arrow_right.svg';
+import edgeColor from '../Actions/edgeColor';
 
 type AppProps = {
 	contextmenu: contextMenu;
@@ -58,7 +60,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	const firstDivElement = useRef<HTMLDivElement>(null);
 	const secondDivElement = useRef<HTMLDivElement>(null);
 	//eslint-disable-next-line
-	const { isOpen, x, y } = contextmenu;
+	const { x, y } = contextmenu;
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
 	const { nodeList, edgeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(
 		AdjacencyListContext
@@ -150,7 +152,12 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
 		deleteNode(x, y);
-		redrawCanvas(nodeList, edgeList, canvas, context);
+		let theme = document.documentElement.getAttribute('data-theme');
+		let edgeColor = '#333333';
+		if (theme) {
+			edgeColor = '#eeeeee';
+		}
+		redrawCanvas(nodeList, edgeList, canvas, context, edgeColor);
 		setContextMenuState(false);
 	};
 
@@ -215,31 +222,31 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 				{
 					result ? <div>
 						<div className="context-menu-option" onClick={handleAddNode}>
-							Add Node
+							<span className="context-menu-text">Add Node</span>
 						</div>
 						<div className="context-menu-option" onClick={handleClearCanvas}>
-							Clear Canvas
+							<span className="context-menu-text">Clear Nodes</span>
 						</div>
 					</div> :
 					<div>
 						<div className="context-menu-option" onClick={handleDeleteNode}>
-							Delete Node
+							<span className="context-menu-text">Delete Node</span>
 						</div>
 						<div
 							className="context-menu-option context-menu-arrow"
 							ref={firstDivElement}
 							onMouseEnter={handleMouseInDirected}
 						>
-							<span className="context-menu-arrow-text">Add Direceted Edge</span>
-							<span className="context-menu-arrow-head">&#129170;</span>
+							<span className="context-menu-arrow-text context-menu-text">Add Direceted Edge</span>
+							<ArrowRight className="context-menu-arrow-head" />
 						</div>
 						<div
 							className="context-menu-option context-menu-arrow"
 							ref={secondDivElement}
 							onMouseEnter={handleMouseInUndirected}
 						>
-							<span className="context-menu-arrow-text context-menu-arrow">Add Undireceted Edge</span>
-							<span className="context-menu-arrow-head">&#129170;</span>
+							<span className="context-menu-arrow-text context-menu-text">Add Undireceted Edge</span>
+							<ArrowRight className="context-menu-arrow-head" />
 						</div>
 					</div>}
 			</div>

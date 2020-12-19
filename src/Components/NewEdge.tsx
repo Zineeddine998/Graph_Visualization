@@ -5,7 +5,7 @@ import canvasProvider from '../Types/canvasProvider';
 import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import { CanvasContext } from '../Context/CanvasContext';
 
-type AppProps = { source: number; target: number; directed: boolean };
+type AppProps = { source: number; target: number; directed: boolean; weight?: number };
 
 const NewEdge = ({ source, target, directed }: AppProps) => {
 	const { nodeList, addEdge, addUndirectedEdge } = useContext(AdjacencyListContext);
@@ -29,7 +29,8 @@ const NewEdge = ({ source, target, directed }: AppProps) => {
 				const newEdge: edge = {
 					source: sourceNode,
 					target: targetNode,
-					directed: true
+					directed: true,
+					weight: 1
 				};
 
 				addEdge(newEdge);
@@ -56,12 +57,14 @@ const NewEdge = ({ source, target, directed }: AppProps) => {
 				const firstEdge: edge = {
 					source: sourceNode,
 					target: targetNode,
-					directed: false
+					directed: false,
+					weight: 1
 				};
 				const secondEdge: edge = {
 					source: targetNode,
 					target: sourceNode,
-					directed: false
+					directed: false,
+					weight: 1
 				};
 				addUndirectedEdge(firstEdge, secondEdge);
 			}
@@ -76,9 +79,9 @@ const NewEdge = ({ source, target, directed }: AppProps) => {
 					directed ? handleAddDirectedEdge :
 					handleAddUndirectedEdge
 			}
-			className="context-menu-option"
+			className="context-menu-option context-menu-edge-option"
 		>
-			{target}
+			Node {target}
 		</div>
 	);
 };

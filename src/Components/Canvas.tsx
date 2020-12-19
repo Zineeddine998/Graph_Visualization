@@ -11,6 +11,7 @@ import redrawCanvas from '../Actions/redrawCanvas';
 import createNode from '../Actions/createNode';
 import drawNode from '../Actions/drawNode';
 import Contextmenu from '../Components/ContextMenu';
+import edgeColor from '../Actions/edgeColor';
 
 const Canvas = () => {
 	const initialContextMenu: contextMenu = { isOpen: false, x: 0, y: 0 };
@@ -53,7 +54,7 @@ const Canvas = () => {
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
 			}
-			redrawCanvas(nodeList, edgeList, canvas, context);
+			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
 			//eslint-disable-next-line
 		},
 		[
@@ -113,7 +114,7 @@ const Canvas = () => {
 			setNodetomove(node);
 
 			moveNode(nodetomove);
-			redrawCanvas(nodeList, edgeList, canvas, context);
+			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
 		}
 	};
 

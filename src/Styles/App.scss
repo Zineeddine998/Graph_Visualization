@@ -11,6 +11,23 @@
 // }
 
 .App {
+	font-family: "Roboto", sans-serif;
+}
+
+::-webkit-scrollbar {
+	width: 0.3em;
+}
+
+::-webkit-scrollbar-track {
+	background-color: var(--button-color);
+	border: black 1px solid;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--header-color);
+	border: black 1px solid;
+	border-radius: 5px;
 }
 
 .canvas {
@@ -20,48 +37,50 @@
 }
 
 .context-menu {
-	color: var(--context-font-color);
-	background-color: var(--background-color);
+	background-color: var(--button-color);
 	width: 200px;
-	border: var(--background-color) 2px solid;
+	border: var(--background-color) 1px solid;
+	border-radius: 5px;
 	z-index: 2;
 }
 
 .context-menu-new-edge {
-	max-height: 200px;
+	max-height: 12em;
 	overflow-y: auto;
 }
 
 .context-menu-option {
-	border: var(--context-font-color) 1px solid;
-	padding: 10px;
-	margin-bottom: 2px;
-	height: 20px;
+	display: flex;
+	align-items: center;
+	color: var(--font-color);
+	border-bottom: var(--font-color) 1px solid;
+	padding: 0.5em;
+	height: 2em;
 	cursor: pointer;
 
 	&:hover {
-		background-color: var(--hover-color);
+		background-color: var(--button-hover-color);
+	}
+
+	&:first-child {
+		border-radius: 5px 5px 0 0;
 	}
 
 	&:last-child {
-		margin-bottom: 0;
+		border-bottom: none;
+		border-radius: 0 0 5px 5px;
 	}
 }
 
+.context-menu-edge-option {
+	height: 1em;
+	padding: 1em;
+}
+
+.context-menu-text {
+	color: var(--font-color);
+}
+
 .context-menu-arrow {
-	display: flex;
 	justify-content: space-between;
-}
-
-::-webkit-scrollbar {
-	width: 0.3em;
-}
-
-::-webkit-scrollbar-track {
-	background-color: var(--button-color);
-	border-radius: 20px;
-}
-::-webkit-scrollbar-thumb {
-	background-color: var(--header-color);
-	border-radius: 20px;
 }

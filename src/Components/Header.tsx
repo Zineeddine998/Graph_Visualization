@@ -7,6 +7,7 @@ import { AdjacencyListContext } from '../Context/AdjacencyListContext';
 import canvasProvider from '../Types/canvasProvider';
 import { CanvasContext } from '../Context/CanvasContext';
 import DropDown from './DropDown';
+import redrawCanvas from '../Actions/redrawCanvas';
 
 const Header = () => {
 	const [
@@ -17,7 +18,7 @@ const Header = () => {
 		target,
 		setTarget
 	] = useState<number>(0);
-	const { nodeList, addEdge, addUndirectedEdge, clearNodes } = useContext(AdjacencyListContext);
+	const { nodeList, edgeList, addEdge, addUndirectedEdge, clearNodes } = useContext(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
 
 	const handleThemeChange = (value: boolean): void => {
@@ -25,10 +26,12 @@ const Header = () => {
 		if (value) {
 			trans();
 			document.documentElement.setAttribute('data-theme', 'dark');
+			redrawCanvas(nodeList, edgeList, canvas, context, '#eeeeee');
 		}
 		else {
 			trans();
 			document.documentElement.setAttribute('data-theme', 'light');
+			redrawCanvas(nodeList, edgeList, canvas, context, '#333333');
 		}
 	};
 
@@ -51,7 +54,8 @@ const Header = () => {
 				const newEdge: edge = {
 					source: sourceNode,
 					target: targetNode,
-					directed: true
+					directed: true,
+					weight: 1
 				};
 				addEdge(newEdge);
 			}
@@ -77,12 +81,14 @@ const Header = () => {
 				const edgeOne: edge = {
 					source: sourceNode,
 					target: targetNode,
-					directed: false
+					directed: false,
+					weight: 1
 				};
 				const edgeTwo: edge = {
 					source: targetNode,
 					target: sourceNode,
-					directed: false
+					directed: false, //
+					weight: 1
 				};
 				addUndirectedEdge(edgeOne, edgeTwo);
 			}

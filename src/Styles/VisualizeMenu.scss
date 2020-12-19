@@ -3,7 +3,8 @@
 .algorithm-dropdown-container {
 	height: 50px;
 	background-color: var(--button-color);
-	border: black 1px solid;
+	border: var(--font-color) 1px solid;
+	border-radius: 5px 5px 0 0;
 	position: relative;
 }
 
@@ -14,7 +15,8 @@
 	justify-content: space-between;
 	align-items: center;
 	flex-direction: row;
-	transition: background 250ms;
+	transition: background 350ms;
+	border-radius: 5px 5px 0 0;
 
 	&:hover {
 		background-color: var(--button-hover-color);
@@ -35,20 +37,27 @@
 	position: absolute;
 	width: 100%;
 	bottom: 50px;
+	margin-bottom: 0.5em;
+	border-radius: 5px;
 	overflow-y: auto;
-	border: black 1px solid;
+	border: var(--font-color) 1px solid;
 }
 
 .algorithm-dropdown-item {
 	background-color: var(--button-color);
 	padding: 1em;
 	list-style: none;
-	border: black 1px solid;
+	border-bottom: var(--font-color) 1px solid;
 	color: var(--font-color);
+	transition: background 350ms;
 
 	&:hover {
 		background-color: var(--button-hover-color);
 		cursor: pointer;
+	}
+
+	&:last-child {
+		border-bottom: none;
 	}
 }
 
@@ -70,24 +79,16 @@
 	text-align: center;
 	vertical-align: middle;
 	padding: 1em;
-	border: black 4px solid;
+	border: var(--font-color) 1px solid;
 	border-top: none;
-	background-color: #eeeeee;
+	background-color: var(--heading-color);
+	color: var(--font-color);
 	cursor: pointer;
-}
+	transition: background 350ms;
 
-.visualize-button:hover {
-	border: black 4px solid;
-	border-top: none;
-	background-color: #cccccc;
-}
-
-.visualize-select {
-	margin: auto;
-	padding: 1em;
-	width: 100%;
-	border: black 4px solid;
-	border-bottom: none;
+	&:hover {
+		background-color: var(--button-hover-color);
+	}
 }
 
 .visualize-select:focus {

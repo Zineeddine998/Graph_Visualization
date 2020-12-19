@@ -10,6 +10,7 @@ import visualize from '../Actions/visualize';
 import breadthFirstTraversal from '../Algorithms/BreadthFirstTraversal';
 import depthFirstSeach from '../Algorithms/DepthFirstTraversal';
 import DropDownUtils from './DropDownUtils';
+import edgeColor from '../Actions/EdgeColor';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);
@@ -22,7 +23,8 @@ const VisualizeMenu = () => {
 	const algoList = [
 		'TopologicalSort',
 		'Breadth First Traversal',
-		'Depth First Traversal'
+		'Depth First Traversal',
+		'Dijksras Shortest Path'
 	];
 
 	const handleVisualize = (event: React.FormEvent<HTMLDivElement>) => {
@@ -56,7 +58,7 @@ const VisualizeMenu = () => {
 				}
 			}
 		}
-		visualize(nodeList, resultNodes, edgeList, canvas, context);
+		visualize(nodeList, resultNodes, edgeList, canvas, context, edgeColor(document));
 	};
 
 	return (

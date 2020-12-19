@@ -6,7 +6,7 @@ import drawNode from './drawNode';
 const slowDrawNode = (
 	wait: number,
 	value: number,
-	context: CanvasRenderingContext2D,
+	context: CanvasRenderingContext2D | null,
 	x: number,
 	y: number,
 	color: string
@@ -22,7 +22,8 @@ const visualize = (
 	resultList: node[],
 	edgeList: edge[],
 	canvas: HTMLCanvasElement | null,
-	context: CanvasRenderingContext2D | null
+	context: CanvasRenderingContext2D | null,
+	edgeColor: string
 ) => {
 	if (canvas && context) {
 		context.clearRect(0, 0, canvas.width, canvas.height);
@@ -39,7 +40,7 @@ const visualize = (
 		}
 		let i = 0;
 		for (let item of edgeList) {
-			drawEdge(item.source, item.target, item.directed, context);
+			drawEdge(item.source, item.target, item.directed, context, edgeColor);
 		}
 		for (let item of nodeList) {
 			drawNode(item.value, context, item.canvasX, item.canvasY, '#ffffff');

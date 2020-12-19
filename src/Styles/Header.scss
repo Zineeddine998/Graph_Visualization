@@ -17,7 +17,8 @@
 // 	--color-headings: #3694ff;
 // }
 
-@import 'Variables';
+@import "Variables";
+
 .navbar {
 	background-color: var(--header-color);
 	padding: 1.5em;
@@ -41,7 +42,8 @@
 .dropdown-container {
 	text-align: center;
 	z-index: 10;
-	border: black 1px solid;
+	border: var(--font-color) 1px solid;
+	border-radius: 5px;
 	background-color: var(--button-color);
 
 	@media screen and (min-width: $medium) {
@@ -57,7 +59,8 @@
 	align-content: center;
 	flex-direction: column;
 	position: relative;
-	transition: background 250ms;
+	border-radius: 5px;
+	transition: background 350ms;
 
 	&:hover {
 		background-color: var(--button-hover-color);
@@ -86,17 +89,29 @@ svg {
 }
 
 .dropdown-item-container {
-	max-height: 25vh;
+	max-height: 12em;
 	overflow-y: auto;
-	border: black 1px solid;
+	border: var(--font-color) 1px solid;
+	border-radius: 5px;
+	margin-top: 0.2em;
 }
 
 .dropdown-item {
 	background-color: var(--button-color);
 	padding: 1em;
+	height: 1em;
 	list-style: none;
-	border: black 1px solid;
+	border-bottom: var(--font-color) 1px solid;
 	color: var(--font-color);
+	transition: background 350ms;
+
+	&:first-child {
+		border-top: none;
+	}
+
+	&:last-child {
+		border-bottom: none;
+	}
 
 	&:hover {
 		background-color: var(--button-hover-color);
@@ -126,7 +141,10 @@ svg {
 	height: 50px;
 	background-color: var(--button-color);
 	color: var(--font-color);
-	border: none;
+	border: var(--font-color) 1px solid;
+	border-radius: 5px;
+	font-size: 0.9em;
+	font-family: "Roboto", sans-serif;
 	transition: background 350ms;
 
 	&:hover {
