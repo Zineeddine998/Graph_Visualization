@@ -56,7 +56,7 @@ const VisualizeMenu = () => {
 				}
 			}
 		}
-		visualize(resultNodes, edgeList, canvas, context);
+		visualize(nodeList, resultNodes, edgeList, canvas, context);
 	};
 
 	return (

@@ -8,6 +8,7 @@ interface adjacencyListProvider {
 	adjacencyList: adjacencyListObject[];
 	addNode: (node: node) => void;
 	addEdge: (edge: edge) => void;
+	addUndirectedEdge: (firstEdge: edge, secondEdge: edge) => void;
 	moveNode: (index: node) => void;
 	deleteNode: (x: number, y: number) => void;
 	clearNodes: () => void;

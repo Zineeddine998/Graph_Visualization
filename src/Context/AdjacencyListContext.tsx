@@ -11,6 +11,7 @@ const initialState: adjacencyListProvider = {
 	addNode: (node: node) => {},
 	addEdge: (edge: edge) => {},
 	moveNode: (index: node) => {},
+	addUndirectedEdge: (firstEdge: edge, secondEdge: edge) => {},
 	deleteNode: (x: number, y: number) => {},
 	clearNodes: () => {}
 };
@@ -112,6 +113,24 @@ export const AdjacencyListContextProvider = (props: IProps) => {
 		setAdjacencyList([]);
 	};
 
+	const addUndirectedEdge = (firstEdge: edge, secondEdge: edge) => {
+		let tempAdjacencyList = adjacencyList;
+		for (let item of tempAdjacencyList) {
+			if (item.value === firstEdge.source.value) {
+				item.target.push(firstEdge.target.value);
+			}
+			else if (item.value === secondEdge.source.value) {
+				item.target.push(secondEdge.target.value);
+			}
+		}
+		setEdgeList([
+			...edgeList,
+			firstEdge,
+			secondEdge
+		]);
+		setAdjacencyList(tempAdjacencyList);
+	};
+
 	return (
 		<AdjacencyListContext.Provider
 			value={{
@@ -120,6 +139,7 @@ export const AdjacencyListContextProvider = (props: IProps) => {
 				adjacencyList,
 				addNode,
 				addEdge,
+				addUndirectedEdge,
 				clearNodes,
 				moveNode,
 				deleteNode

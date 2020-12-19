@@ -37,13 +37,17 @@ const DropDown = ({ nodeList, value, setNode }: AppProps) => {
 					{nodeList.map((item) => {
 						if (item.value !== value) {
 							return (
-								<div className="dropdown-item" onClick={(event) => handleChangeNode(event, item.value)}>
+								<div
+									key={item.value}
+									className="dropdown-item"
+									onClick={(event) => handleChangeNode(event, item.value)}
+								>
 									Node {item.value}
 								</div>
 							);
 						}
 						else {
-							return <React.Fragment />;
+							return <React.Fragment key={item.value} />;
 						}
 					})}
 				</div> :

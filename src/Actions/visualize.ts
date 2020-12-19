@@ -19,6 +19,7 @@ const slowDrawNode = (
 
 const visualize = (
 	nodeList: node[],
+	resultList: node[],
 	edgeList: edge[],
 	canvas: HTMLCanvasElement | null,
 	context: CanvasRenderingContext2D | null
@@ -41,7 +42,7 @@ const visualize = (
 			drawEdge(item.source, item.target, item.directed, context);
 		}
 		for (let item of nodeList) {
-			//drawNode(item.value, context, item.canvasX, item.canvasY, '#410000');
+			drawNode(item.value, context, item.canvasX, item.canvasY, '#ffffff');
 			i++;
 			slowDrawNode(i, item.value, context, item.canvasX, item.canvasY, '#410000');
 		}

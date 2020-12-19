@@ -8,7 +8,7 @@ import { CanvasContext } from '../Context/CanvasContext';
 type AppProps = { source: number; target: number; directed: boolean };
 
 const NewEdge = ({ source, target, directed }: AppProps) => {
-	const { nodeList, addEdge } = useContext(AdjacencyListContext);
+	const { nodeList, addEdge, addUndirectedEdge } = useContext(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
 	const handleAddDirectedEdge = (event: React.MouseEvent) => {
 		event.preventDefault();
@@ -53,13 +53,17 @@ const NewEdge = ({ source, target, directed }: AppProps) => {
 			}
 
 			if (sourceNode && targetNode) {
-				const newEdge: edge = {
+				const firstEdge: edge = {
 					source: sourceNode,
 					target: targetNode,
 					directed: false
 				};
-
-				addEdge(newEdge);
+				const secondEdge: edge = {
+					source: targetNode,
+					target: sourceNode,
+					directed: false
+				};
+				addUndirectedEdge(firstEdge, secondEdge);
 			}
 		}
 	};

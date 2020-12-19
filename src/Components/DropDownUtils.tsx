@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NumberLiteralType } from 'typescript';
 import { DownArrow, UpArrow } from '../Icons/Icons';
 
 type AppProps = {
@@ -33,6 +32,7 @@ const DropDownUtils = ({ algoList, value, setAlgo }: AppProps) => {
 					{algoList.map((item) => {
 						return (
 							<div
+								key={item}
 								className="algorithm-dropdown-item"
 								onClick={(event) => handleChangeNode(event, algoList.indexOf(item))}
 							>
