@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react';
+import '../Styles/Variables.scss';
 import '../Styles/Header.scss';
+
 import node from '../Types/Node';
 import edge from '../Types/Edge';
 import { AdjacencyListContext } from '../Context/AdjacencyListContext';

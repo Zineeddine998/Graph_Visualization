@@ -1,13 +1,15 @@
-html[data-theme="light"] {
-	--color-bg: #eeeeee;
-}
+// html[data-theme="light"] {
+// 	--color-bg: #eeeeee;
+// }
 
-html[data-theme="dark"] {
-	--color-bg: #333333;
-}
+// html[data-theme="dark"] {
+// 	--color-bg: #333333;
+// }
+
+@import 'Variables';
 
 body {
-	background-color: var(--color-bg);
+	background-color: var(--canvas-color);
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
 		'Droid Sans', 'Helvetica Neue', sans-serif;

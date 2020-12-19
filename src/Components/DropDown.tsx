@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import node from '../Types/Node';
+import { DownArrow, UpArrow } from '../Icons/Icons';
 
 type AppProps = {
 	nodeList: node[];
@@ -16,16 +17,30 @@ const DropDown = ({ nodeList, value, setNode }: AppProps) => {
 		event.preventDefault();
 		setOpen(!open);
 	};
+	const handleChangeNode = (event: React.MouseEvent<HTMLDivElement>, index: number) => {
+		event.preventDefault();
+		setOpen(!open);
+		setNode(index);
+	};
 	return (
 		<div className="dropdown-container" onClick={handleClick}>
-			<div className="dropdown-text">
-				<p>Node {value}</p>
+			<div className="dropdown-text-container">
+				<div className="dropdown-text"> Node {value} </div>
+				<div className="dropdown-arrow">
+					{
+						open ? <UpArrow /> :
+						<DownArrow />}
+				</div>
 			</div>
 			{
 				open ? <div className="dropdown-item-container">
 					{nodeList.map((item) => {
 						if (item.value !== value) {
-							return <div className="dropdown-item">Hello</div>;
+							return (
+								<div className="dropdown-item" onClick={(event) => handleChangeNode(event, item.value)}>
+									Node {item.value}
+								</div>
+							);
 						}
 						else {
 							return <React.Fragment />;

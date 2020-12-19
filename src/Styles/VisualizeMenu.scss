@@ -1,3 +1,59 @@
+@import 'Variables';
+
+.algorithm-dropdown-container {
+	height: 5vh;
+	min-height: 50px;
+	background-color: var(--button-color);
+	border: black 1px solid;
+	position: relative;
+}
+
+.algorithm-dropdown-text-container {
+	height: 100%;
+	text-align: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	transition: background 250ms;
+
+	&:hover {
+		background-color: var(--button-hover-color);
+		cursor: pointer;
+	}
+}
+
+.algorithm-dropdown-text {
+	color: var(--font-color);
+	margin-left: 0.5em;
+}
+
+.algorithm-dropdown-arrow {
+	color: var(--font-color);
+}
+
+.algorithm-dropdown-item-container {
+	position: absolute;
+	bottom: 0;
+	max-height: 25vh;
+	width: 200px;
+	overflow-y: auto;
+	border: black 1px solid;
+}
+
+.algorithm-dropdown-item {
+	background-color: var(--button-color);
+	padding: 1em;
+	list-style: none;
+	border: black 1px solid;
+	color: var(--font-color);
+
+	&:hover {
+		background-color: var(--button-hover-color);
+		cursor: pointer;
+	}
+}
+
 .visualize-container {
 	margin: auto;
 	bottom: 0;

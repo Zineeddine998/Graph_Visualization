@@ -1,0 +1,28 @@
+$small: 320px;
+$medium: 768px;
+$large: 1024px;
+$extra-large: 1200px;
+
+[data-theme="light"] {
+	--header-color: #6002ee;
+	--font-color: #333333;
+	--button-color: #eeeeee;
+	--button-hover-color: #dddddd;
+	--color-headings: #0077ff;
+	--context-font-color: #0077ff;
+	--background-color: #333333;
+	--hover-color: #eeeeee;
+	--canvas-color: #333333;
+}
+
+[data-theme="dark"] {
+	--header-color: #eeeeee;
+	--font-color: #eeeeee;
+	--button-color: #333333;
+	--button-hover-color: #444444;
+	--color-headings: #3694ff;
+	--context-font-color: #3694ff;
+	--background-color: #eeeeee;
+	--hover-color: #333333;
+	--canvas-color: #333333;
+}

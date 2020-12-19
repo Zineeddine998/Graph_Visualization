@@ -9,6 +9,7 @@ import topologicalSort from '../Algorithms/TopologicalSort';
 import visualize from '../Actions/visualize';
 import breadthFirstTraversal from '../Algorithms/BreadthFirstTraversal';
 import depthFirstSeach from '../Algorithms/DepthFirstTraversal';
+import DropDownUtils from './DropDownUtils';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);
@@ -16,22 +17,28 @@ const VisualizeMenu = () => {
 	const [
 		algorithm,
 		setAlgorithm
-	] = useState<number>(1);
+	] = useState<number>(0);
+
+	const algoList = [
+		'TopologicalSort',
+		'Breadth First Traversal',
+		'Depth First Traversal'
+	];
 
 	const handleVisualize = (event: React.FormEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		let result: number[] = [];
 		switch (algorithm) {
-			case 1: {
+			case 0: {
 				result = topologicalSort(adjacencyList, nodeList);
 				break;
 			}
-			case 2: {
+			case 1: {
 				result = breadthFirstTraversal(adjacencyList);
 				break;
 			}
 
-			case 3: {
+			case 2: {
 				result = depthFirstSeach(adjacencyList);
 				break;
 			}
@@ -52,13 +59,9 @@ const VisualizeMenu = () => {
 		visualize(resultNodes, edgeList, canvas, context);
 	};
 
-	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		event.preventDefault();
-		setAlgorithm(+event.target.value);
-	};
 	return (
 		<div className="visualize-container">
-			<select name="algorithm" className="visualize-select" value={algorithm} onChange={handleSelectChange}>
+			{/* <select name="algorithm" className="visualize-select" value={algorithm} onChange={handleSelectChange}>
 				<option className="visualize-option" value={1}>
 					Topological Sort
 				</option>
@@ -68,7 +71,8 @@ const VisualizeMenu = () => {
 				<option className="visualize-option" value={3}>
 					Depth First Traversal
 				</option>
-			</select>
+			</select> */}
+			<DropDownUtils algoList={algoList} value={algorithm} setAlgo={setAlgorithm} />
 			<div className="visualize-button" onClick={handleVisualize}>
 				Visualize
 			</div>
