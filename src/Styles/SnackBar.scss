@@ -1,0 +1,25 @@
+@import 'Variables';
+
+.snackbar-container {
+	background-color: var(--canvas-color);
+	min-height: 50px;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	bottom: 2em;
+	left: 2em;
+	padding: 0 1em;
+	border: 2px solid var(--header-color);
+	border-radius: 5px;
+}
+
+.snackbar-text {
+	color: var(--font-color);
+	padding: 0 1em;
+}
+
+.snackbar-close-icon {
+	cursor: pointer;
+}
