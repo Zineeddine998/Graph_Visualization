@@ -9,10 +9,7 @@ type AppProps = {
 };
 
 const DropDown = ({ nodeList, value, setNode }: AppProps) => {
-	const [
-		open,
-		setOpen
-	] = useState<boolean>(false);
+	const [ open, setOpen ] = useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		setOpen(!open);
@@ -35,7 +32,7 @@ const DropDown = ({ nodeList, value, setNode }: AppProps) => {
 			{
 				open ? <div className="dropdown-item-container">
 					{
-						nodeList.length === 1 ? <div className="dropdown-item"> Nodes Unavailables </div> :
+						nodeList.length <= 1 ? <div className="dropdown-item"> Nodes Unavailables </div> :
 						nodeList.map((item) => {
 							if (item.value !== value) {
 								return (

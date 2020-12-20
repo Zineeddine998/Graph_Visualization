@@ -11,23 +11,17 @@ import breadthFirstTraversal from '../Algorithms/BreadthFirstTraversal';
 import depthFirstSeach from '../Algorithms/DepthFirstTraversal';
 import DropDownUtils from './DropDownUtils';
 import edgeColor from '../Actions/edgeColor';
+import cycleDetection from '../Algorithms/CycleDetection';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
-	const [
-		algorithm,
-		setAlgorithm
-	] = useState<number>(0);
+	const [ algorithm, setAlgorithm ] = useState<number>(0);
 
-	const algoList = [
-		'TopologicalSort',
-		'Breadth First Traversal',
-		'Depth First Traversal',
-		'Dijksras Shortest Path'
-	];
+	const algoList = [ 'TopologicalSort', 'Breadth First Traversal', 'Depth First Traversal', 'Graph Cycle Detection' ];
 
 	const handleVisualize = (event: React.FormEvent<HTMLDivElement>) => {
+		let errorDetected = false;
 		event.preventDefault();
 		let result: number[] = [];
 		switch (algorithm) {
@@ -42,6 +36,10 @@ const VisualizeMenu = () => {
 
 			case 2: {
 				result = depthFirstSeach(adjacencyList);
+				break;
+			}
+			case 3: {
+				({ errorDetected, result } = cycleDetection(adjacencyList));
 				break;
 			}
 

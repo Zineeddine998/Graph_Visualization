@@ -1,5 +1,5 @@
 import adjacencyListObject from '../Types/adjacencyListObject';
-import visualizeObject from '../Types/visualizeObject';
+import visualizeObject from '../Types/VisualizeObject';
 
 const CycleDetectionUtils = (
 	adjacencyList: adjacencyListObject[],
@@ -14,7 +14,7 @@ const CycleDetectionUtils = (
 		result.push(value);
 		for (let item of adjacencyList) {
 			for (let elem of item.target) {
-				if (!visited.has(value) && CycleDetectionUtils(adjacencyList, elem, visited, recStack, result)) {
+				if (!visited.has(elem) && CycleDetectionUtils(adjacencyList, elem, visited, recStack, result)) {
 					return true;
 				}
 				else if (recStack.has(elem)) return true;

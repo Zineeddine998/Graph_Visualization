@@ -10,6 +10,13 @@ const firstNodeList = [];
 const secondAdjacencyList = [ { value: 0, target: [] } ];
 const secondNodeList = [ createNode(0, 100, 100, 100, 100, 500, 500) ];
 
+const thirdAdjacencyList = [
+	{ count: 0, target: [ 1 ] },
+	{ count: 1, target: [ 2 ] },
+	{ count: 2, target: [ 3 ] },
+	{ count: 3, target: [ 0 ] }
+];
+
 test('Breadth First Traversal Works', () => {
 	const firstResult = breadthFirstTraversal(firstAdjacencyList);
 	expect(firstResult).toEqual([]);
@@ -40,8 +47,15 @@ test('Cycle Detection Works', () => {
 		errorDetected : false,
 		result        : [ 0 ]
 	};
-	const resultOne = cycleDetection(firstAdjacencyList);
-	expect(resultOne).toEqual(expectedResultOne);
-	const resultTwo = cycleDetection(secondAdjacencyList);
-	expect(resultTwo).toEqual(expectedResultTwo);
+
+	const expectedResultThree = {
+		errorDetected : true,
+		result        : [ 0 ]
+	};
+	const firstResult = cycleDetection(firstAdjacencyList);
+	expect(firstResult).toEqual(expectedResultOne);
+	const secondResult = cycleDetection(secondAdjacencyList);
+	expect(secondResult).toEqual(expectedResultTwo);
+	const thirdResult = cycleDetection(thirdAdjacencyList);
+	expect(thirdResult.errorDetected).toEqual(expectedResultThree.errorDetected);
 });
