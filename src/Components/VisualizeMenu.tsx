@@ -12,10 +12,13 @@ import depthFirstSeach from '../Algorithms/DepthFirstTraversal';
 import DropDownUtils from './DropDownUtils';
 import edgeColor from '../Actions/edgeColor';
 import cycleDetection from '../Algorithms/CycleDetection';
+import { SnackBarContext } from '../Context/SnackBarContext';
+import snackbarProvider from '../Types/snackbarProvider';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
+	const { toggleSnackbar } = useContext<snackbarProvider>(SnackBarContext);
 	const [ algorithm, setAlgorithm ] = useState<number>(0);
 
 	const algoList = [ 'TopologicalSort', 'Breadth First Traversal', 'Depth First Traversal', 'Graph Cycle Detection' ];
@@ -40,6 +43,8 @@ const VisualizeMenu = () => {
 			}
 			case 3: {
 				({ errorDetected, result } = cycleDetection(adjacencyList));
+				if (errorDetected) toggleSnackbar('Cycle detected ✔️');
+				else toggleSnackbar('No Cycle detected ❌');
 				break;
 			}
 

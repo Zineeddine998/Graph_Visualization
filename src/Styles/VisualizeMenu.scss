@@ -2,7 +2,7 @@
 
 .algorithm-dropdown-container {
 	height: 50px;
-	background-color: var(--button-color);
+	background-color: var(--visualize-button-color);
 	border: var(--font-color) 1px solid;
 	border-radius: 5px 5px 0 0;
 	position: relative;
@@ -44,7 +44,7 @@
 }
 
 .algorithm-dropdown-item {
-	background-color: var(--button-color);
+	background-color: var(--visualize-button-color);
 	padding: 1em;
 	list-style: none;
 	border-bottom: var(--font-color) 1px solid;
@@ -81,7 +81,7 @@
 	padding: 1em;
 	border: var(--font-color) 1px solid;
 	border-top: none;
-	background-color: var(--heading-color);
+	background-color: var(--visualize-button-color);
 	color: var(--font-color);
 	cursor: pointer;
 	transition: background 350ms;

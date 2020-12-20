@@ -1,7 +1,7 @@
 @import 'Variables';
 
 .snackbar-container {
-	background-color: var(--canvas-color);
+	background-color: var(--header-color);
 	min-height: 50px;
 	position: absolute;
 	display: flex;
@@ -11,15 +11,16 @@
 	bottom: 2em;
 	left: 2em;
 	padding: 0 1em;
-	border: 2px solid var(--header-color);
+	border: 2px solid var(--font-color);
 	border-radius: 5px;
 }
 
 .snackbar-text {
-	color: var(--font-color);
+	color: var(--snackbar-font-color);
 	padding: 0 1em;
 }
 
 .snackbar-close-icon {
 	cursor: pointer;
+	fill: var(--snackbar-font-color);
 }

@@ -12,6 +12,8 @@ $extra-large: 1200px;
 	--color-headings: #0077ff;
 	--background-color: #121212;
 	--hover-color: #eeeeee;
+	--snackbar-font-color: #eeeeee;
+	--visualize-button-color: #eeeeee;
 }
 
 [data-theme="dark"] {
@@ -23,4 +25,6 @@ $extra-large: 1200px;
 	--color-headings: #03dac5;
 	--background-color: #eeeeee;
 	--hover-color: #121212;
+	--snackbar-font-color: #bb86f6;
+	--visualize-button-color: #1f1b24;
 }
