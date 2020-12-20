@@ -1,29 +1,32 @@
 import adjacencyListObject from '../Types/adjacencyListObject';
 
-const depthFirstSearchUtil = (
+const depthFirstTraversalHelper = (
 	adjacencyList: adjacencyListObject[],
 	result: number[],
-	visited: Set<number>,
-	value: number
+	visisted: Set<number>,
+	count: number
 ) => {
-	visited.add(value);
-	result.push(value);
+	visisted.add(count);
+	result.push(count);
 	for (let item of adjacencyList) {
-		if (item.value === value) {
-			for (let elem of item.target) {
-				if (!visited.has(elem)) {
-					depthFirstSearchUtil(adjacencyList, result, visited, elem);
+		if (item.value === count) {
+			for (let iter of item.target) {
+				if (!visisted.has(iter)) {
+					depthFirstTraversalHelper(adjacencyList, result, visisted, iter);
 				}
 			}
 		}
 	}
 };
 
-const depthFirstSearch = (adjacencyList: adjacencyListObject[]): number[] => {
+const depthFirstTraversal = (adjacencyList: adjacencyListObject[]): number[] => {
 	let result: number[] = [];
-	let visited: Set<number> = new Set<number>();
-	depthFirstSearchUtil(adjacencyList, result, visited, adjacencyList[0].value);
+	if (adjacencyList.length > 0) {
+		let visited: Set<number> = new Set<number>();
+		depthFirstTraversalHelper(adjacencyList, result, visited, adjacencyList[0].value);
+		console.log(result);
+	}
 	return result;
 };
 
-export default depthFirstSearch;
+export default depthFirstTraversal;
