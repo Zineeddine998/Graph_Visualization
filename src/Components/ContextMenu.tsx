@@ -74,7 +74,8 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 				innerX = x - 200;
 			}
 			if (y + 150 > window.innerHeight) {
-				innerY = y - 100;
+				if (!result) innerY = y - 150;
+				else innerY = y - 100;
 			}
 			if (firstDivElement.current != null) {
 				const rectOne = firstDivElement.current.getBoundingClientRect();
@@ -194,19 +195,23 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 							}
 					}
 				>
-					{nodeList.map((value: node) => {
-						if (value.value !== index && newedge.directed !== undefined) {
-							return (
-								<Newedge
-									key={value.value}
-									source={index}
-									target={value.value}
-									directed={newedge.directed}
-								/>
-							);
-						}
-						return null;
-					})}
+					{
+						nodeList.length === 1 ? <div className="context-menu-option context-menu-edge-option">
+							Nodes Unavailables
+						</div> :
+						nodeList.map((value: node) => {
+							if (value.value !== index && newedge.directed !== undefined) {
+								return (
+									<Newedge
+										key={value.value}
+										source={index}
+										target={value.value}
+										directed={newedge.directed}
+									/>
+								);
+							}
+							return null;
+						})}
 				</div> :
 				<React.Fragment />}
 			<div

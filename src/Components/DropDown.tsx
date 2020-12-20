@@ -34,22 +34,24 @@ const DropDown = ({ nodeList, value, setNode }: AppProps) => {
 			</div>
 			{
 				open ? <div className="dropdown-item-container">
-					{nodeList.map((item) => {
-						if (item.value !== value) {
-							return (
-								<div
-									key={item.value}
-									className="dropdown-item"
-									onClick={(event) => handleChangeNode(event, item.value)}
-								>
-									Node {item.value}
-								</div>
-							);
-						}
-						else {
-							return <React.Fragment key={item.value} />;
-						}
-					})}
+					{
+						nodeList.length === 1 ? <div className="dropdown-item"> Nodes Unavailables </div> :
+						nodeList.map((item) => {
+							if (item.value !== value) {
+								return (
+									<div
+										key={item.value}
+										className="dropdown-item"
+										onClick={(event) => handleChangeNode(event, item.value)}
+									>
+										Node {item.value}
+									</div>
+								);
+							}
+							else {
+								return <React.Fragment key={item.value} />;
+							}
+						})}
 				</div> :
 				<React.Fragment />}
 		</div>
