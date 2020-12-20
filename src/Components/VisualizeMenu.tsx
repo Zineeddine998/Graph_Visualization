@@ -10,7 +10,7 @@ import visualize from '../Actions/visualize';
 import breadthFirstTraversal from '../Algorithms/BreadthFirstTraversal';
 import depthFirstSeach from '../Algorithms/DepthFirstTraversal';
 import DropDownUtils from './DropDownUtils';
-import edgeColor from '../Actions/EdgeColor';
+import edgeColor from '../Actions/edgeColor';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);

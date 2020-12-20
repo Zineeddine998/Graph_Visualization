@@ -6,7 +6,7 @@ import drawNode from './drawNode';
 const slowDrawNode = (
 	wait: number,
 	value: number,
-	context: CanvasRenderingContext2D | null,
+	context: CanvasRenderingContext2D,
 	x: number,
 	y: number,
 	color: string
