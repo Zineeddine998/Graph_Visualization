@@ -169,6 +169,7 @@ const Canvas = () => {
 			<canvas
 				ref={canvasRef}
 				className="canvas"
+				data-testid="canvas-element"
 				onMouseDown={handleMouseDown}
 				onMouseMove={handleMouseMove}
 				onMouseUp={handleMouseUp}
