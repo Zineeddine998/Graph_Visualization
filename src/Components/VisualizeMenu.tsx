@@ -14,6 +14,7 @@ import edgeColor from '../Actions/edgeColor';
 import cycleDetection from '../Algorithms/CycleDetection';
 import { SnackBarContext } from '../Context/SnackBarContext';
 import snackbarProvider from '../Types/snackbarProvider';
+import visualizeColor from '../Actions/visualizeColor';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);
@@ -61,7 +62,14 @@ const VisualizeMenu = () => {
 				}
 			}
 		}
-		visualize(nodeList, resultNodes, edgeList, canvas, context, edgeColor(document));
+		visualize(nodeList, resultNodes, edgeList, canvas, context).then((val) => {
+			if (val && algorithm === 3) {
+				if (errorDetected) {
+					toggleSnackbar('✔️ Cycle detected');
+				}
+				else toggleSnackbar('❌ No cycle detected');
+			}
+		});
 	};
 
 	return (

@@ -13,6 +13,7 @@ import redrawCanvas from '../Actions/redrawCanvas';
 import Newedge from './NewEdge';
 import { ReactComponent as ArrowRight } from '../Icons/arrow_right.svg';
 import edgeColor from '../Actions/edgeColor';
+import nodeColor from '../Actions/nodeColor';
 
 type AppProps = {
 	contextmenu: contextMenu;
@@ -37,26 +38,11 @@ type newEdgePosition = {
 };
 
 const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
-	const [
-		newedge,
-		setNewedge
-	] = useState<DropdownMenu>({ isOpen: false });
-	const [
-		pos,
-		setPos
-	] = useState<position>({ x: 0, y: 0 });
-	const [
-		divpos,
-		setDivpos
-	] = useState<newEdgePosition>({ x: 0, edgeCase: false, y1: 0, y2: 0 });
-	const [
-		index,
-		setIndex
-	] = useState<number>(-1);
-	const [
-		result,
-		setResult
-	] = useState<boolean>(true);
+	const [ newedge, setNewedge ] = useState<DropdownMenu>({ isOpen: false });
+	const [ pos, setPos ] = useState<position>({ x: 0, y: 0 });
+	const [ divpos, setDivpos ] = useState<newEdgePosition>({ x: 0, edgeCase: false, y1: 0, y2: 0 });
+	const [ index, setIndex ] = useState<number>(-1);
+	const [ result, setResult ] = useState<boolean>(true);
 	const firstDivElement = useRef<HTMLDivElement>(null);
 	const secondDivElement = useRef<HTMLDivElement>(null);
 	//eslint-disable-next-line
@@ -107,13 +93,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 				}
 			}
 		},
-		[
-			x,
-			y,
-			nodeList,
-			index,
-			result
-		]
+		[ x, y, nodeList, index, result ]
 	);
 	const setNewEdgeWrapper = (isOpen: boolean, directed: boolean = true): void => {
 		const newEdge = { isOpen: isOpen, directed: directed };
@@ -133,7 +113,16 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 			if (context) {
 				const nodeCount: number = getNextIndex(nodeList);
 				drawNode(nodeCount, context, xPos, yPos, '#ffffff');
-				const newNode: node = createNode(nodeCount, xPos, yPos, x, y, rect.right, rect.bottom);
+				const newNode: node = createNode(
+					nodeCount,
+					xPos,
+					yPos,
+					x,
+					y,
+					rect.right,
+					rect.bottom,
+					nodeColor(document)
+				);
 				addNode(newNode);
 			}
 			setContextMenuState(false);

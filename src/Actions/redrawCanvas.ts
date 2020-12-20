@@ -2,6 +2,8 @@ import node from '../Types/Node';
 import edge from '../Types/Edge';
 import drawNode from './drawNode';
 import drawEdge from './drawEdge';
+import nodeColor from './nodeColor';
+import visualizeColor from './visualizeColor';
 
 const redrawCanvas = (
 	nodeList: node[],
@@ -14,6 +16,7 @@ const redrawCanvas = (
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		const rect = canvas.getBoundingClientRect();
 		for (let item of nodeList) {
+			item.color = nodeColor(document);
 			if (rect.right !== item.windowX || rect.bottom !== item.windowY) {
 				item.clientX = item.clientX * (rect.right / item.windowX);
 				item.clientY = item.clientY * (rect.bottom / item.windowY);
@@ -27,7 +30,10 @@ const redrawCanvas = (
 			drawEdge(item.source, item.target, item.directed, context, edgeColor);
 		}
 		for (let item of nodeList) {
-			drawNode(item.value, context, item.canvasX, item.canvasY, '#fff233');
+			if (item.visualize) {
+				item.color = visualizeColor(document);
+			}
+			drawNode(item.value, context, item.canvasX, item.canvasY, item.color);
 		}
 	}
 };

@@ -12,26 +12,15 @@ import createNode from '../Actions/createNode';
 import drawNode from '../Actions/drawNode';
 import Contextmenu from '../Components/ContextMenu';
 import edgeColor from '../Actions/edgeColor';
+import nodeColor from '../Actions/nodeColor';
 
 const Canvas = () => {
 	const initialContextMenu: contextMenu = { isOpen: false, x: 0, y: 0 };
-	const [
-		nodetomove,
-		setNodetomove
-	] = useState<node | null>(null);
-	const [
-		button,
-		setButton
-	] = useState<number>(0);
-	const [
-		contextmenu,
-		setContextMenu
-	] = useState<contextMenu>(initialContextMenu);
+	const [ nodetomove, setNodetomove ] = useState<node | null>(null);
+	const [ button, setButton ] = useState<number>(0);
+	const [ contextmenu, setContextMenu ] = useState<contextMenu>(initialContextMenu);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const [
-		width,
-		height
-	] = useWindowSize();
+	const [ width, height ] = useWindowSize();
 	const { nodeList, edgeList, moveNode, addNode } = useContext<adjacencyListProvider>(AdjacencyListContext);
 	const { canvas, context, setCanvas, setContext } = useContext<canvasProvider>(CanvasContext);
 
@@ -57,14 +46,7 @@ const Canvas = () => {
 			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
 			//eslint-disable-next-line
 		},
-		[
-			width,
-			height,
-			nodeList,
-			edgeList,
-			setCanvas,
-			setContext
-		]
+		[ width, height, nodeList, edgeList, context, setCanvas, setContext ]
 	);
 
 	const handleRightClick = (event: React.MouseEvent): void => {
@@ -139,7 +121,8 @@ const Canvas = () => {
 						event.clientX,
 						event.clientY,
 						rect.right,
-						rect.bottom
+						rect.bottom,
+						nodeColor(document)
 					);
 					addNode(newNode);
 					console.log(nodeList);

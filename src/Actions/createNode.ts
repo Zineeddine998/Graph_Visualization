@@ -1,14 +1,5 @@
 import node from '../Types/Node';
 
-const edgeColor = (document: Document): string => {
-	let theme = document.documentElement.getAttribute('data-theme');
-	let edgeColor = '#333333';
-	if (theme === 'dark') {
-		edgeColor = '#eeeeee';
-	}
-	return edgeColor;
-};
-
 const createNode = (
 	value: number,
 	canvasX: number,
@@ -16,7 +7,8 @@ const createNode = (
 	clientX: number,
 	clientY: number,
 	windowX: number,
-	windowY: number
+	windowY: number,
+	color: string
 ): node => {
 	const newNode: node = {
 		value: value,
@@ -25,9 +17,10 @@ const createNode = (
 		clientX: clientX,
 		clientY: clientY,
 		windowX: windowX,
-		windowY: windowY
+		windowY: windowY,
+		color: color,
+		visualize: false
 	};
-
 	return newNode;
 };
 

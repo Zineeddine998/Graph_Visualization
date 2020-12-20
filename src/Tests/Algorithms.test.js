@@ -8,7 +8,7 @@ const firstAdjacencyList = [];
 const firstNodeList = [];
 
 const secondAdjacencyList = [ { value: 0, target: [] } ];
-const secondNodeList = [ createNode(0, 100, 100, 100, 100, 500, 500) ];
+const secondNodeList = [ createNode(0, 100, 100, 100, 100, 500, 500, '') ];
 
 const thirdAdjacencyList = [
 	{ count: 0, target: [ 1 ] },
