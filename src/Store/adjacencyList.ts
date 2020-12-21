@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import adjacencyListObject from '../types/adjacencyListObject';
-import edge from '../types/Edge';
-import node from '../types/Node';
+import adjacencyListObject from '../Types/adjacencyListObject';
+import { act } from 'react-dom/test-utils';
+import edge from '../Types/Edge';
+import node from '../Types/Node';
 
 type SliceState = {
 	nodeList: node[];
@@ -45,9 +46,45 @@ const adjacencyListSlice = createSlice({
 			return { nodeList, edgeList, adjacencyList };
 		},
 
-		ADD_EDGE: (state, action: PayloadAction<edge>) => {},
+		ADD_EDGE: (state, action: PayloadAction<edge>) => {
+			const adjacencyList = JSON.parse(JSON.stringify(state.adjacencyList));
+			for (let item of adjacencyList) {
+				if (item.value === action.payload.source.value) {
+					item.target = [ ...item.target, action.payload.target.value ];
+				}
+				if (item.value === action.payload.target.value && action.payload.directed === false) {
+					item.target = [ ...item.target, action.payload.source.value ];
+				}
+			}
 
-		DELETE_EDGE: (state, action: PayloadAction<edge>) => {}
+			return {
+				...state,
+				edgeList: [ ...state.edgeList, action.payload ],
+				adjacencyList
+			};
+		},
+
+		DELETE_EDGE: (state, action: PayloadAction<edge>) => {
+			const adjacencyList = JSON.parse(JSON.stringify(state.adjacencyList));
+			const edgeList = state.edgeList.filter(
+				(item) =>
+					item.source.value !== action.payload.source.value ||
+					item.target.value !== action.payload.target.value
+			);
+			for (let item of adjacencyList) {
+				if (item.count === action.payload.source.value) {
+					item.target = item.target.filter((iter: number) => iter !== action.payload.target.value);
+				}
+				if (action.payload.directed === false && item.count === action.payload.target.value) {
+					item.target = item.target.filter((iter: number) => iter !== action.payload.source.value);
+				}
+			}
+			return {
+				...state,
+				edgeList,
+				adjacencyList
+			};
+		}
 	}
 });
 
