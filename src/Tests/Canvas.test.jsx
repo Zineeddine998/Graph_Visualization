@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Canvas from '../components/Canvas';
-import drawNode from '../actions/drawNode';
+import Canvas from '../Components/Canvas';
+import drawNode from '../Acctions/drawNode';
 
 let canvas;
 let ctx;
@@ -23,6 +23,7 @@ test('draw in canvas', () => {
 		drawNode(2, ctx, 200, 100, '#eeeeee');
 		drawNode(3, ctx, 300, 100, '#eeeeee');
 		const path = ctx.__getPath();
+		// eslint-disable-next-line jest/no-conditional-expect
 		expect(path).toMatchSnapshot();
 	}
 });
