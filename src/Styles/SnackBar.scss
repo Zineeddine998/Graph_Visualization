@@ -7,12 +7,21 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-
 	bottom: 2em;
 	left: 2em;
 	padding: 0 1em;
 	border: 2px solid var(--font-color);
 	border-radius: 5px;
+	@media screen and (min-width: $medium) {
+		position: absolute;
+		bottom: 20%;
+		left: 20%;
+	}
+	@media screen and (min-width: $small) {
+		position: absolute;
+		bottom: 20%;
+		left: 20%;
+	}
 }
 
 .snackbar-text {

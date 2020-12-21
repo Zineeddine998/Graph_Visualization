@@ -31,6 +31,7 @@
 	@media screen and (max-width: $small) {
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-rows: repeat(2, 50px);
+		padding-bottom: 2em;
 	}
 
 	@media screen and (max-width: $extra-large) {
@@ -82,6 +83,14 @@
 	right: 1em;
 	top: 30%;
 	color: var(--font-color);
+	@media screen and (max-width: $medium) {
+		position: absolute;
+		left: 4.5em;
+	}
+	@media screen and (max-width: $small) {
+		position: absolute;
+		left: 4.5em;
+	}
 }
 
 svg {
@@ -153,13 +162,17 @@ svg {
 	font-family: "Roboto", sans-serif;
 	transition: background 350ms;
 
+	@media screen and (min-width: $medium) {
+		min-width: 120px;
+		font-size: 0.9em;
+	}
+	@media screen and (min-width: $small) {
+		font-size: 0.8em;
+	}
+
 	&:hover {
 		background-color: var(--button-hover-color);
 		cursor: pointer;
-	}
-
-	@media screen and (min-width: $medium) {
-		min-width: 120px;
 	}
 }
 
