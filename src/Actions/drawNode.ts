@@ -13,7 +13,7 @@ const drawNode = (
 	context.closePath();
 	context.fill();
 	context.strokeStyle = fontColor;
-	context.fillStyle = fontColor;
+	context.fillStyle = "black";
 	context.arc(x, y, 20, 0, 2 * Math.PI, false);
 	context.stroke();
 	context.font = '20px Roboto';
