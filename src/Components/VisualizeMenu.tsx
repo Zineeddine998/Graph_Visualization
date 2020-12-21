@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_MESSAGE } from '../Store/snackbar';
 import '../Styles/VisualizeMenu.scss';
 import node from '../Types/Node';
 import { AdjacencyListContext } from '../Context/AdjacencyListContext';
@@ -10,16 +12,14 @@ import visualize from '../Actions/visualize';
 import breadthFirstTraversal from '../Algorithms/BreadthFirstTraversal';
 import depthFirstSeach from '../Algorithms/DepthFirstTraversal';
 import DropDownUtils from './DropDownUtils';
-import edgeColor from '../Actions/edgeColor';
 import cycleDetection from '../Algorithms/CycleDetection';
 import { SnackBarContext } from '../Context/SnackBarContext';
 import snackbarProvider from '../Types/snackbarProvider';
-import visualizeColor from '../Actions/visualizeColor';
 
 const VisualizeMenu = () => {
 	const { nodeList, edgeList, adjacencyList } = useContext<adjacencyListProvider>(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
-	const { toggleSnackbar } = useContext<snackbarProvider>(SnackBarContext);
+	const dispatch = useDispatch();
 	const [ algorithm, setAlgorithm ] = useState<number>(0);
 
 	const algoList = [ 'TopologicalSort', 'Breadth First Traversal', 'Depth First Traversal', 'Graph Cycle Detection' ];
@@ -44,8 +44,6 @@ const VisualizeMenu = () => {
 			}
 			case 3: {
 				({ errorDetected, result } = cycleDetection(adjacencyList));
-				if (errorDetected) toggleSnackbar('Cycle detected ✔️');
-				else toggleSnackbar('No Cycle detected ❌');
 				break;
 			}
 
@@ -63,11 +61,13 @@ const VisualizeMenu = () => {
 			}
 		}
 		visualize(nodeList, resultNodes, edgeList, canvas, context).then((val) => {
+			console.log(algorithm);
+			console.log(errorDetected);
 			if (val && algorithm === 3) {
 				if (errorDetected) {
-					toggleSnackbar('✔️ Cycle detected');
+					dispatch(SET_MESSAGE('✔️ Cycle detected'));
 				}
-				else toggleSnackbar('❌ No cycle detected');
+				else dispatch(SET_MESSAGE('❌ No cycle detected'));
 			}
 		});
 	};

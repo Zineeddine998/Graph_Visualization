@@ -41,6 +41,7 @@
 	border-radius: 5px;
 	overflow-y: auto;
 	border: var(--font-color) 1px solid;
+	animation: fade-in 0.25s;
 }
 
 .algorithm-dropdown-item {
@@ -93,4 +94,13 @@
 
 .visualize-select:focus {
 	outline: none;
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

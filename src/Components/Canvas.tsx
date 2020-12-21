@@ -13,11 +13,12 @@ import drawNode from '../Actions/drawNode';
 import Contextmenu from '../Components/ContextMenu';
 import edgeColor from '../Actions/edgeColor';
 import nodeColor from '../Actions/nodeColor';
+import fontColor from '../Actions/fontColor';
 
 const Canvas = () => {
 	const initialContextMenu: contextMenu = { isOpen: false, x: 0, y: 0 };
 	const [ nodetomove, setNodetomove ] = useState<node | null>(null);
-	const [ button, setButton ] = useState<number>(0);
+	const [ createnewnode, setCreateNewNode ] = useState<boolean>(false);
 	const [ contextmenu, setContextMenu ] = useState<contextMenu>(initialContextMenu);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [ width, height ] = useWindowSize();
@@ -43,7 +44,7 @@ const Canvas = () => {
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
 			}
-			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
+			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document), fontColor(document));
 			//eslint-disable-next-line
 		},
 		[ width, height, nodeList, edgeList, context, setCanvas, setContext ]
@@ -55,25 +56,30 @@ const Canvas = () => {
 
 	const handleMouseDown = (event: React.MouseEvent): void => {
 		event.preventDefault();
-		setButton(event.buttons);
 		if (canvas && event.buttons === 1) {
-			const x = event.clientX;
-			const y = event.clientY;
-			const rect = canvas.getBoundingClientRect();
-			let index: number = -1;
-			for (let iter in nodeList) {
-				if (Math.abs(x - nodeList[iter].clientX) < 20 && Math.abs(y - nodeList[iter].clientY) < 20) {
-					index = +iter;
+			if (contextmenu.isOpen === true) setContextMenuState(false);
+			else {
+				const x = event.clientX;
+				const y = event.clientY;
+				const rect = canvas.getBoundingClientRect();
+				let index: number = -1;
+				for (let iter in nodeList) {
+					if (Math.abs(x - nodeList[iter].clientX) < 20 && Math.abs(y - nodeList[iter].clientY) < 20) {
+						index = +iter;
+					}
 				}
-			}
-			if (index > -1) {
-				console.log(index);
-				let node = nodeList[index];
-				node.clientX = x;
-				node.clientY = y;
-				node.canvasX = x - rect.left;
-				node.canvasY = y - rect.top;
-				setNodetomove(node);
+				if (index > -1) {
+					console.log(index);
+					let node = nodeList[index];
+					node.clientX = x;
+					node.clientY = y;
+					node.canvasX = x - rect.left;
+					node.canvasY = y - rect.top;
+					setNodetomove(node);
+				}
+				else {
+					setCreateNewNode(true);
+				}
 			}
 		}
 		if (event.buttons === 2) {
@@ -96,7 +102,7 @@ const Canvas = () => {
 			setNodetomove(node);
 
 			moveNode(nodetomove);
-			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
+			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document), fontColor(document));
 		}
 	};
 
@@ -107,13 +113,13 @@ const Canvas = () => {
 			setNodetomove(null);
 		}
 		else {
-			if (contextmenu.isOpen === false && canvas) {
+			if (contextmenu.isOpen === false && createnewnode === true && canvas) {
 				const rect = canvas.getBoundingClientRect();
 				const x = event.clientX - rect.left;
 				const y = event.clientY - rect.top;
 				if (context) {
 					const nodeCount: number = getNextIndex(nodeList);
-					drawNode(nodeCount, context, x, y, '#ffffff');
+					drawNode(nodeCount, context, x, y, edgeColor(document), fontColor(document));
 					const newNode: node = createNode(
 						nodeCount,
 						x,
@@ -126,11 +132,6 @@ const Canvas = () => {
 					);
 					addNode(newNode);
 					console.log(nodeList);
-				}
-			}
-			else {
-				if (button === 1) {
-					setContextMenuState(false);
 				}
 			}
 		}

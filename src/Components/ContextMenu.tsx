@@ -14,6 +14,7 @@ import Newedge from './NewEdge';
 import { ReactComponent as ArrowRight } from '../Icons/arrow_right.svg';
 import edgeColor from '../Actions/edgeColor';
 import nodeColor from '../Actions/nodeColor';
+import fontColor from '../Actions/fontColor';
 
 type AppProps = {
 	contextmenu: contextMenu;
@@ -48,9 +49,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	//eslint-disable-next-line
 	const { x, y } = contextmenu;
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
-	const { nodeList, edgeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(
-		AdjacencyListContext
-	);
+	const { nodeList, addNode, clearNodes, deleteNode } = useContext<adjacencyListProvider>(AdjacencyListContext);
 
 	useEffect(
 		() => {
@@ -112,7 +111,7 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 			const yPos = y - rect.top;
 			if (context) {
 				const nodeCount: number = getNextIndex(nodeList);
-				drawNode(nodeCount, context, xPos, yPos, '#ffffff');
+				drawNode(nodeCount, context, xPos, yPos, edgeColor(document), fontColor(document));
 				const newNode: node = createNode(
 					nodeCount,
 					xPos,
@@ -142,7 +141,6 @@ const ContextMenu = ({ contextmenu, setContextMenuState }: AppProps) => {
 	const handleDeleteNode = (event: React.FormEvent<HTMLDivElement>): void => {
 		event.preventDefault();
 		deleteNode(x, y);
-		redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
 		setContextMenuState(false);
 	};
 

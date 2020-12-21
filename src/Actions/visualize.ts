@@ -4,6 +4,7 @@ import drawEdge from './drawEdge';
 import drawNode from './drawNode';
 import edgeColor from './edgeColor';
 import redrawCanvas from './redrawCanvas';
+import fontColor from './fontColor';
 
 const slowDrawNode = async (
 	nodeList: node[],
@@ -19,7 +20,7 @@ const slowDrawNode = async (
 			new Promise((res, rej) => {
 				setTimeout(() => {
 					item.visualize = true;
-					redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
+					redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document), fontColor(document));
 					res(true);
 				}, 1000 * resultList.findIndex((node) => node.value === item.value));
 			})
@@ -53,7 +54,7 @@ const visualize = (
 				item.windowY = rect.bottom;
 			}
 		}
-		redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document));
+		redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document), fontColor(document));
 		return new Promise<boolean>((res) => slowDrawNode(nodeList, resultList, edgeList, canvas, context, res));
 	}
 	return new Promise<boolean>((res, rej) => {

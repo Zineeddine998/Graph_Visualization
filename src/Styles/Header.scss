@@ -94,6 +94,7 @@ svg {
 	border: var(--font-color) 1px solid;
 	border-radius: 5px;
 	margin-top: 0.2em;
+	animation: fade-in 0.25s;
 }
 
 .dropdown-item {
@@ -241,6 +242,15 @@ svg {
 
 .toggle-label:active:after {
 	width: 45px;
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 html.transition,

@@ -6,8 +6,6 @@ import snackbarReducer from './snackbar';
 const configureStoreUtils = () =>
 	configureStore({
 		reducer: {
-			adjacencyList: adjacencyListReducer,
-			canvas: canvasReducer,
 			snackbar: snackbarReducer
 		}
 	});

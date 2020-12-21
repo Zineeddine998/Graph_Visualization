@@ -4,7 +4,7 @@ $large: 1024px;
 $extra-large: 1200px;
 
 [data-theme="light"] {
-	--header-color: #6002ee;
+	--header-color: #222831;
 	--font-color: #121212;
 	--button-color: #eeeeee;
 	--canvas-color: #eeeeee;
@@ -17,14 +17,14 @@ $extra-large: 1200px;
 }
 
 [data-theme="dark"] {
-	--header-color: #1f1b24;
-	--font-color: #bb86f6;
-	--button-color: #121212;
+	--header-color: #0f3057;
+	--font-color: white;
+	--button-color: #white;
 	--canvas-color: #121212;
-	--button-hover-color: #2e243d;
+	--button-hover-color: #03dac5;
 	--color-headings: #03dac5;
 	--background-color: #eeeeee;
 	--hover-color: #121212;
-	--snackbar-font-color: #bb86f6;
-	--visualize-button-color: #1f1b24;
+	--snackbar-font-color: white;
+	--visualize-button-color: #0f3057;
 }

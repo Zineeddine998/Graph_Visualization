@@ -11,7 +11,12 @@
 // }
 
 .App {
-	font-family: "Roboto", sans-serif;
+	// font-family: "Roboto", sans-serif;
+	// display: grid;
+	// grid-gap: 50px;
+	// grid-template-columns: auto auto auto;
+
+	// padding: 10px;
 }
 
 ::-webkit-scrollbar {
@@ -42,6 +47,7 @@
 	border: var(--font-color) 1px solid;
 	border-radius: 5px;
 	z-index: 2;
+	animation: fade-in 0.25s;
 }
 
 .context-menu-new-edge {
@@ -83,4 +89,13 @@
 
 .context-menu-arrow {
 	justify-content: space-between;
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

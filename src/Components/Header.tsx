@@ -8,16 +8,12 @@ import canvasProvider from '../Types/canvasProvider';
 import { CanvasContext } from '../Context/CanvasContext';
 import DropDown from './DropDown';
 import redrawCanvas from '../Actions/redrawCanvas';
+import edgeColor from '../Actions/edgeColor';
+import fontColor from '../Actions/fontColor';
 
 const Header = () => {
-	const [
-		source,
-		setSource
-	] = useState<number>(0);
-	const [
-		target,
-		setTarget
-	] = useState<number>(0);
+	const [ source, setSource ] = useState<number>(0);
+	const [ target, setTarget ] = useState<number>(0);
 	const { nodeList, edgeList, addEdge, addUndirectedEdge, clearNodes } = useContext(AdjacencyListContext);
 	const { canvas, context } = useContext<canvasProvider>(CanvasContext);
 
@@ -26,12 +22,12 @@ const Header = () => {
 		if (value) {
 			trans();
 			document.documentElement.setAttribute('data-theme', 'dark');
-			redrawCanvas(nodeList, edgeList, canvas, context, '#eeeeee');
+			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document), fontColor(document));
 		}
 		else {
 			trans();
 			document.documentElement.setAttribute('data-theme', 'light');
-			redrawCanvas(nodeList, edgeList, canvas, context, '#333333');
+			redrawCanvas(nodeList, edgeList, canvas, context, edgeColor(document), fontColor(document));
 		}
 	};
 

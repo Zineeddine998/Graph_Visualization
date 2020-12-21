@@ -16,6 +16,10 @@ const initialState: SliceState = {
 	adjacencyList: []
 };
 
+export const getNodeListSelector = (state: SliceState) => state.nodeList;
+export const getAdjacencyListSelector = (state: SliceState) => state.adjacencyList;
+export const getEdgeListSelector = (state: SliceState) => state.edgeList;
+
 const adjacencyListSlice = createSlice({
 	name: 'adjacencyList',
 	initialState,

@@ -7,14 +7,8 @@ function drawArrowHead (
 	radius: number,
 	color: string
 ){
-	let [
-		x_center,
-		y_center
-	] = to;
-	let [
-		fromX,
-		fromY
-	] = from;
+	let [ x_center, y_center ] = to;
+	let [ fromX, fromY ] = from;
 
 	let angle;
 	let x, y;
@@ -26,13 +20,13 @@ function drawArrowHead (
 	context.moveTo(x, y);
 
 	angle += 1.0 / 3.0 * (2 * Math.PI);
-	x = radius * Math.cos(angle) + x_center;
-	y = radius * Math.sin(angle) + y_center;
+	x = 0.8 * radius * Math.cos(angle) + x_center;
+	y = 0.8 * radius * Math.sin(angle) + y_center;
 
 	context.lineTo(x, y);
 	angle += 1.0 / 3.0 * (2 * Math.PI);
-	x = radius * Math.cos(angle) + x_center;
-	y = radius * Math.sin(angle) + y_center;
+	x = 0.8 * radius * Math.cos(angle) + x_center;
+	y = 0.8 * radius * Math.sin(angle) + y_center;
 	context.lineTo(x, y);
 
 	context.closePath();
@@ -63,19 +57,7 @@ const drawEdge = (
 	context.lineTo(targetX, targetY);
 	context.stroke();
 	if (directed) {
-		drawArrowHead(
-			context,
-			[
-				sourceX,
-				sourceY
-			],
-			[
-				targetX,
-				targetY
-			],
-			15,
-			color
-		);
+		drawArrowHead(context, [ sourceX, sourceY ], [ targetX, targetY ], 15, color);
 	}
 };
 
