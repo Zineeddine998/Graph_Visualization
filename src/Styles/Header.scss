@@ -105,6 +105,11 @@ svg {
 	color: var(--font-color);
 	transition: background 350ms;
 
+	&:only-child {
+		padding: 1em;
+		height: auto;
+	}
+
 	&:first-child {
 		border-top: none;
 	}

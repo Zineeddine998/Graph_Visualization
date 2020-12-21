@@ -21,16 +21,33 @@ const adjacencyListSlice = createSlice({
 	reducers: {
 		ADD_NODE: (state, action: PayloadAction<node>) => {
 			action.payload.value = 0;
-			if (state.nodeList.length > 1) action.payload.value = state.nodeList[state.nodeList.length - 1].value + 1;
-			state.nodeList.push(action.payload);
-			state.adjacencyList.push({ value: action.payload.value, target: [] });
+			if (state.nodeList.length >= 1) action.payload.value = state.nodeList[state.nodeList.length - 1].value + 1;
+			const newNode = action.payload;
+			const newAdjacencyListItem = { value: action.payload.value, target: [] };
+			return {
+				...state,
+				nodeList: [ ...state.nodeList, newNode ],
+				adjacencyList: [ ...state.adjacencyList, newAdjacencyListItem ]
+			};
 		},
 
-		DELETE_NODE: (state, action: PayloadAction<number>) => {},
+		DELETE_NODE: (state, action: PayloadAction<number>) => {
+			const nodeList = state.nodeList.filter((item) => item.value !== action.payload);
+			let adjacencyList = state.adjacencyList.filter((item) => item.value !== action.payload);
+			adjacencyList = JSON.parse(JSON.stringify(adjacencyList));
+			for (let item of adjacencyList) {
+				item.target = item.target.filter((item) => item !== action.payload);
+			}
 
-		ADD_EDGE: (state, action: PayloadAction<number>) => {},
+			const edgeList = state.edgeList.filter(
+				(item) => item.source.value !== action.payload && item.target.value !== action.payload
+			);
+			return { nodeList, edgeList, adjacencyList };
+		},
 
-		DELETE_EDGE: (state, action: PayloadAction<number>) => {}
+		ADD_EDGE: (state, action: PayloadAction<edge>) => {},
+
+		DELETE_EDGE: (state, action: PayloadAction<edge>) => {}
 	}
 });
 
